@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1012061636684",
+    "project_id": "bibliotechhub",
+    "storage_bucket": "bibliotechhub.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012061636684:android:b76bc15d57e996915ecce9",
+        "android_client_info": {
+          "package_name": "com.example.biblio_tech_hub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012061636684-tb8age6rn9l9kkmnud4ee8cf3n0uuea4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.biblio_tech_hub",
+            "certificate_hash": "c08a2a9fa08bc84776fcafdbcbfb9677d687da33"
+          }
+        },
+        {
+          "client_id": "1012061636684-89b2gl1ukc4h0v2ef8fpn1021kv97j2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzX6O1Ne1I9__kxFxUVKHVXfVHDMSpGZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012061636684-89b2gl1ukc4h0v2ef8fpn1021kv97j2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
