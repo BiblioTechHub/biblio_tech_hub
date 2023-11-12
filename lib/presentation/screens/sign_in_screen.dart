@@ -3,6 +3,7 @@ import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 
 class SignInScreen extends StatelessWidget {
@@ -30,7 +31,15 @@ class SignInScreen extends StatelessWidget {
             ],
           )
         ],
-      )
+      ),
+      //! Boton para cerrar sesión provisional
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          GoogleServices.signOut();
+          context.read<UserCubit>().signOut();
+        },
+        child: const Icon(Icons.logout_outlined),
+      ),
     );
   }
 }
@@ -55,6 +64,7 @@ class GuestButton extends StatelessWidget {
       label: const Text('Continuar como invitado', style: TextStyle(color: Colors.white),),
       onPressed: () {
         //TODO 
+        context.go('/');
       }, 
     );
   }
@@ -87,9 +97,10 @@ class SignInGoogleButton extends StatelessWidget {
       onPressed: () async {
         //TODO
         User? user = await GoogleServices.signIn();
-        if(context.mounted){
-          context.watch<UserCubit>().signIn(user!);
-        }
+        if(context.mounted && user != null){
+          context.read<UserCubit>().signIn(user);
+          context.go('/');
+        }  
       }, 
     );
   }
