@@ -2,24 +2,20 @@ part of 'user_cubit.dart';
 
 class UserState extends Equatable{
 
-  final String id;
-  final String email;
+  final User? user;
 
   const UserState({
-    required this.id, 
-    required this.email
+    required this.user
   });
 
   copyWith({
-    String? id,
-    String? email 
+    User? user
   }) => UserState(
-    id: id ?? this.id, 
-    email: email ?? this.email
+    user: user ?? this.user
   );
   
   @override
   // TODO: implement props
-  List<Object?> get props => [id, email];
+  List<Object?> get props => [user];
   
 }
