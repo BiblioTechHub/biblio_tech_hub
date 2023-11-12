@@ -46,7 +46,7 @@ class GoogleServices {
   }
 
 
-  static Future<void> signOuts() async{
+  static Future<void> signOut() async{
     _authIstance.signOut();
     _googleSignIn.signOut();
   }
