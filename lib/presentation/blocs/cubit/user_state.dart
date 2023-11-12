@@ -3,15 +3,19 @@ part of 'user_cubit.dart';
 class UserState extends Equatable{
 
   final User? user;
+  final bool isLogged;
 
   const UserState({
-    required this.user
+    required this.user,
+    this.isLogged = false
   });
 
   copyWith({
-    User? user
+    User? user,
+    bool? isLogged
   }) => UserState(
-    user: user ?? this.user
+    user: user ?? this.user,
+    isLogged: isLogged ?? this.isLogged
   );
   
   @override
