@@ -32,14 +32,6 @@ class SignInScreen extends StatelessWidget {
           )
         ],
       ),
-      //! Boton para cerrar sesión provisional
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          GoogleServices.signOut();
-          context.read<UserCubit>().signOut();
-        },
-        child: const Icon(Icons.logout_outlined),
-      ),
     );
   }
 }
@@ -64,6 +56,7 @@ class GuestButton extends StatelessWidget {
       label: const Text('Continuar como invitado', style: TextStyle(color: Colors.white),),
       onPressed: () {
         //TODO 
+        context.read<UserCubit>().signIn(null, false);
         context.go('/');
       }, 
     );
@@ -95,10 +88,9 @@ class SignInGoogleButton extends StatelessWidget {
       ), 
       label: const Text('Sign up with Google', style: TextStyle(color: Colors.white),),
       onPressed: () async {
-        //TODO
         User? user = await GoogleServices.signIn();
         if(context.mounted && user != null){
-          context.read<UserCubit>().signIn(user);
+          context.read<UserCubit>().signIn(user, true);
           context.go('/');
         }  
       }, 

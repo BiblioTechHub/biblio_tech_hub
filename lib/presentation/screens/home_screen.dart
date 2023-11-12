@@ -9,7 +9,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if(context.watch<UserCubit>().state.isLogged == false){
+    if(context.watch<UserCubit>().state.isLogged == false 
+        && context.watch<UserCubit>().state.isGuest == false){
       print('${context.read<UserCubit>().state.isLogged}');
       return const SignInScreen();
     }

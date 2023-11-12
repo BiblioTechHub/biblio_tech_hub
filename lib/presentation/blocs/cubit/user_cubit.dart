@@ -8,17 +8,19 @@ part 'user_state.dart';
 class UserCubit extends Cubit<UserState> {
   UserCubit() : super(const UserState(user: null, isLogged: false));
 
-  void signIn(User user){
+  void signIn(User? user, bool isLogged){
     emit(state.copyWith(
       user: user,
-      isLogged: true
+      isLogged: isLogged,
+      isGuest: !isLogged
     ));
   }
 
   void signOut(){
     emit(state.copyWith(
       user: null,
-      isLogged: false
+      isLogged: false,
+      isGuest: false
     ));
   }
 }
