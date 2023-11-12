@@ -1,4 +1,8 @@
+import 'package:biblio_tech_hub/infractucture/services/google_services.dart';
+import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class SignInScreen extends StatelessWidget {
@@ -80,8 +84,12 @@ class SignInGoogleButton extends StatelessWidget {
         ),
       ), 
       label: const Text('Sign up with Google', style: TextStyle(color: Colors.white),),
-      onPressed: () {
-        //TODO 
+      onPressed: () async {
+        //TODO
+        User? user = await GoogleServices.signIn();
+        if(context.mounted){
+          context.watch<UserCubit>().signIn(user!);
+        }
       }, 
     );
   }
