@@ -62,11 +62,17 @@ class _ImageProfile extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(width: 3)
       ),
-      child: Image.network(
-        width: size.width * 0.4,
-        fit: BoxFit.cover,
-        user?.photoURL ?? 'https://i.pinimg.com/originals/6f/57/76/6f57760966a796644b8cfb0fbc449843.png'
-      )
+      child: user?.photoURL != null
+        ? Image.network(
+            width: size.width * 0.4,
+            fit: BoxFit.cover,
+            user?.photoURL ?? ''
+          )
+        : Image.asset(
+            width: size.width * 0.4,
+            fit: BoxFit.cover,
+            'assets/profile_guest.png'
+          )
     );
   }
 }
