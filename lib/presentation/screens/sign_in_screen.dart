@@ -11,6 +11,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size; 
+    
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -20,8 +22,8 @@ class SignInScreen extends StatelessWidget {
               'assets/book_background.png',
               opacity: const AlwaysStoppedAnimation(.5),
               fit: BoxFit.cover,
-              height: MediaQuery.of(context).size.height,
-              // width: MediaQuery.of(context).size.width,
+              height: size.height,
+              // width: size.width,
             ),
           ),
           Column(
@@ -29,9 +31,9 @@ class SignInScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const LogoAndTitle(),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.2),
+              SizedBox(height: size.width * 0.2),
               const SignInGoogleButton(),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.03),
+              SizedBox(height: size.width * 0.03),
               const GuestButton()
             ],
           )
@@ -75,6 +77,8 @@ class SignInGoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.fromLTRB(3, 3, 12, 3),
@@ -88,7 +92,7 @@ class SignInGoogleButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(3),
         child: Container(
           color: Colors.white,
-          child: Image.asset('assets/sign_in_google.png', width: MediaQuery.of(context).size.width * 0.1)
+          child: Image.asset('assets/sign_in_google.png', width: size.width * 0.1)
         ),
       ), 
       label: const Text('Sign up with Google', style: TextStyle(color: Colors.white),),
@@ -110,6 +114,8 @@ class LogoAndTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -126,28 +132,28 @@ class LogoAndTitle extends StatelessWidget {
             ),
             child: Image.asset(
               'assets/logo.jpeg',
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: size.height * 0.2,
             ),
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.009),
+          SizedBox(width: size.width * 0.009),
           Column(
             children: [
-              Text('Biblio', style: _textStyle(context)),
-              Text('Tech', style: TextStyle(fontFamily: 'Bangers', fontSize: MediaQuery.of(context).size.height * 0.04)),
-              Text('Hub', style: TextStyle(fontFamily: 'Bangers', fontSize: MediaQuery.of(context).size.height * 0.04))
+              Text('Biblio', style: _textStyle(context, size)),
+              Text('Tech', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
+              Text('Hub', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04))
             ],
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02)
+          SizedBox(width: size.width * 0.02)
           
         ],
       ),
     );
   }
 
-  TextStyle _textStyle(BuildContext context){ 
+  TextStyle _textStyle(BuildContext context, Size size){ 
     return TextStyle(
       fontFamily: 'Bangers', 
-      fontSize: MediaQuery.of(context).size.height * 0.04
+      fontSize: size.height * 0.04
     );
   }
 }
