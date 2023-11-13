@@ -1,11 +1,25 @@
 import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
+import 'package:biblio_tech_hub/presentation/views/home_view.dart';
+import 'package:biblio_tech_hub/presentation/views/loan_view.dart';
+import 'package:biblio_tech_hub/presentation/views/profile_view.dart';
+import 'package:biblio_tech_hub/presentation/views/search_view.dart';
 import 'package:biblio_tech_hub/presentation/screens/sign_in_screen.dart';
 import 'package:biblio_tech_hub/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.pageIndex});
+
+  final int pageIndex;
+
+  final viewRoutes = const <Widget> [
+    HomeView(),
+    SearchView(),
+    LoanView(),
+    ProfileView()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +29,18 @@ class HomeScreen extends StatelessWidget {
       return const SignInScreen();
     }
 
-    return const Scaffold(
-      body: Center(
-        child: Text('Hola'),
+    return Scaffold(
+      body: IndexedStack(
+        index: pageIndex,
+        children: viewRoutes,
       ),
-      bottomNavigationBar: CustomBottomNavigation(),
+      bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<UserCubit>().signOut();
+          context.go('/home/0');
+        },
+      ),
     );
   }
 }

@@ -62,7 +62,7 @@ class GuestButton extends StatelessWidget {
       onPressed: () {
         //TODO 
         context.read<UserCubit>().signIn(null, false);
-        context.go('/home');
+        context.go('/home/0');
       }, 
     );
   }
@@ -96,7 +96,7 @@ class SignInGoogleButton extends StatelessWidget {
         User? user = await GoogleServices.signIn();
         if(context.mounted && user != null){
           context.read<UserCubit>().signIn(user, true);
-          context.go('/home');
+          context.go('/home/0');
         }  
       }, 
     );

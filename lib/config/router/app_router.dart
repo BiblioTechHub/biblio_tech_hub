@@ -1,30 +1,19 @@
 
 import 'package:biblio_tech_hub/presentation/screens/home_screen.dart';
-import 'package:biblio_tech_hub/presentation/screens/loan_screen.dart';
-import 'package:biblio_tech_hub/presentation/screens/profile_screen.dart';
-import 'package:biblio_tech_hub/presentation/screens/search_screen.dart';
+import 'package:biblio_tech_hub/presentation/views/loan_view.dart';
+import 'package:biblio_tech_hub/presentation/views/profile_view.dart';
+import 'package:biblio_tech_hub/presentation/views/search_view.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/home/0',
   routes: [
     GoRoute(
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
-      routes: [
-        GoRoute(
-          path: 'search',
-          builder: (context, state) => const SearchScreen(),
-        ),
-        GoRoute(
-          path: 'loan',
-          builder: (context, state) => const LoanScreen(),
-        ),
-        GoRoute(
-          path: 'profile',
-          builder: (context, state) => const ProfileScreen(),
-        ),
-      ]
+      path: '/home/:page',
+      builder: (context, state) {
+        final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
+        return HomeScreen(pageIndex: pageIndex);
+      },
     )
   ]
 );
