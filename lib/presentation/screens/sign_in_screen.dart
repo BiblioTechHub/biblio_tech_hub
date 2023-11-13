@@ -59,6 +59,7 @@ class GuestButton extends StatelessWidget {
       label: const Text('Continuar como invitado', style: TextStyle(color: Colors.white),),
       onPressed: () {
         context.read<UserCubit>().signIn(null, false);
+        context.go('/home/0');
       }, 
     );
   }

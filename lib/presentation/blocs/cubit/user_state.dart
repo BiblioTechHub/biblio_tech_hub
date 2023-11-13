@@ -13,13 +13,13 @@ class UserState extends Equatable{
   });
 
   copyWith({
-    User? user,
-    bool? isLogged,
-    bool? isGuest
+    required User? user,
+    required bool isLogged,
+    required bool isGuest
   }) => UserState(    
-    user: user ?? this.user,
-    isLogged: isLogged ?? this.isLogged,
-    isGuest: isGuest ?? this.isGuest
+    user: user,
+    isLogged: isLogged,
+    isGuest: isGuest
   );
   
   @override
