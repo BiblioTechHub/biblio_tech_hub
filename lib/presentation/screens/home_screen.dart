@@ -30,6 +30,7 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      extendBody: true,
       body: IndexedStack(
         index: pageIndex,
         children: viewRoutes,
