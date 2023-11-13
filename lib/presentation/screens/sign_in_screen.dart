@@ -1,5 +1,6 @@
 import 'package:biblio_tech_hub/infractucture/services/google_services.dart';
 import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
+import 'package:biblio_tech_hub/presentation/widgets/book_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,14 +18,8 @@ class SignInScreen extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Expanded(
-            child: Image.asset(
-              'assets/book_background.png',
-              opacity: const AlwaysStoppedAnimation(.5),
-              fit: BoxFit.cover,
-              height: size.height,
-              // width: size.width,
-            ),
+          const Expanded(
+            child: BookBackground()
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

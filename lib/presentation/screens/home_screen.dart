@@ -35,12 +35,6 @@ class HomeScreen extends StatelessWidget {
         children: viewRoutes,
       ),
       bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<UserCubit>().signOut();
-          context.go('/home/0');
-        },
-      ),
     );
   }
 }
