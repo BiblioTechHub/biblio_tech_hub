@@ -1,10 +1,11 @@
-import 'package:biblio_tech_hub/infractucture/services/google_services.dart';
-import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
-import 'package:biblio_tech_hub/presentation/widgets/book_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:biblio_tech_hub/infractucture/services/google_services.dart';
+import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
+import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 
 
 class SignInScreen extends StatelessWidget {
@@ -57,9 +58,7 @@ class GuestButton extends StatelessWidget {
       icon: const Icon(Icons.person, color: Colors.black),
       label: const Text('Continuar como invitado', style: TextStyle(color: Colors.white),),
       onPressed: () {
-        //TODO 
         context.read<UserCubit>().signIn(null, false);
-        context.go('/home/0');
       }, 
     );
   }

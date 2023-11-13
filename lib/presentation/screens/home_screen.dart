@@ -1,14 +1,10 @@
-import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
-import 'package:biblio_tech_hub/presentation/views/home_view.dart';
-import 'package:biblio_tech_hub/presentation/views/loan_view.dart';
-import 'package:biblio_tech_hub/presentation/views/profile_view.dart';
-import 'package:biblio_tech_hub/presentation/views/search_view.dart';
-import 'package:biblio_tech_hub/presentation/screens/sign_in_screen.dart';
-import 'package:biblio_tech_hub/presentation/widgets/book_background.dart';
-import 'package:biblio_tech_hub/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+
+import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
+import 'package:biblio_tech_hub/presentation/views/views.dart';
+import 'package:biblio_tech_hub/presentation/screens/screens.dart';
+import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.pageIndex});
@@ -34,7 +30,7 @@ class HomeScreen extends StatelessWidget {
       extendBody: true,
       body: Stack(
         children: [
-          BookBackground(),
+          const BookBackground(),
           IndexedStack(
             index: pageIndex,
             children: viewRoutes,

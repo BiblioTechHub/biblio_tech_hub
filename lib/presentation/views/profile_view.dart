@@ -1,8 +1,8 @@
-import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
-import 'package:biblio_tech_hub/presentation/widgets/book_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:biblio_tech_hub/presentation/blocs/cubit/user_cubit.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -49,7 +49,6 @@ class ProfileView extends StatelessWidget {
 
 class _ImageProfile extends StatelessWidget {
   const _ImageProfile({
-    super.key,
     required this.size,
     required this.user,
   });

@@ -23,7 +23,6 @@ class UserState extends Equatable{
   );
   
   @override
-  // TODO: implement props
   List<Object?> get props => [user, isLogged, isGuest];
   
 }
