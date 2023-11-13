@@ -16,7 +16,7 @@ class UserState extends Equatable{
     User? user,
     bool? isLogged,
     bool? isGuest
-  }) => UserState(
+  }) => UserState(    
     user: user ?? this.user,
     isLogged: isLogged ?? this.isLogged,
     isGuest: isGuest ?? this.isGuest
@@ -24,6 +24,6 @@ class UserState extends Equatable{
   
   @override
   // TODO: implement props
-  List<Object?> get props => [user];
+  List<Object?> get props => [user, isLogged, isGuest];
   
 }

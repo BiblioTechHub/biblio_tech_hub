@@ -15,9 +15,14 @@ class SignInScreen extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(
-            'assets/book_background.png',
-            opacity: const AlwaysStoppedAnimation(.5),
+          Expanded(
+            child: Image.asset(
+              'assets/book_background.png',
+              opacity: const AlwaysStoppedAnimation(.5),
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height,
+              // width: MediaQuery.of(context).size.width,
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
