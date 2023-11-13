@@ -8,7 +8,7 @@ class BookBackground extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Image.asset(
       'assets/book_background.png',
-      opacity: const AlwaysStoppedAnimation(.5),
+      opacity: const AlwaysStoppedAnimation(.3),
       fit: BoxFit.cover,
       height: size.height,
       // width: size.width,

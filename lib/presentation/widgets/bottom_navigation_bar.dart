@@ -36,6 +36,7 @@ class CustomBottomNavigation extends StatelessWidget {
       backgroundColor: Color.fromARGB(159, 255, 255, 255),
       onTap: (value) => onItemTapped(context, value),
       type: BottomNavigationBarType.fixed,
+      elevation: 0,
       currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(

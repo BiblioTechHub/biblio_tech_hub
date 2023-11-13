@@ -21,7 +21,7 @@ class ProfileView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _ImageProfile(size: size, user: user),
-            SizedBox(height: size.height * 0.1),
+            SizedBox(height: size.height * 0.05),
         
             Text('¡Bienvenid@,', style: _textStyle(size)),
             Text(
@@ -31,12 +31,13 @@ class ProfileView extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
         
             _Email(user: user, size: size),
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.03),
         
             _Leans(user: user, size: size),
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.07),
         
-            const _SignInButton()
+            const _SignInButton(),
+            SizedBox(height: size.height * 0.07)
           ],
         ),
       )
