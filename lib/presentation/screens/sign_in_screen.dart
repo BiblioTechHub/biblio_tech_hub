@@ -125,7 +125,7 @@ class LogoAndTitle extends StatelessWidget {
               border: Border(right: BorderSide(width: 2.5))
             ),
             child: Image.asset(
-              'assets/logo.jpeg',
+              'assets/logo.png',
               height: size.height * 0.2,
             ),
           ),
