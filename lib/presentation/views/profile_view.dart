@@ -14,35 +14,31 @@ class ProfileView extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
-      body: Stack(
-        children: [
-          const BookBackground(),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _ImageProfile(size: size, user: user),
-                SizedBox(height: size.height * 0.1),
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _ImageProfile(size: size, user: user),
+            SizedBox(height: size.height * 0.1),
         
-                Text('¡Bienvenid@,', style: _textStyle(size)),
-                Text(
-                  user?.displayName ?? 'Invitad@', 
-                  style: _textStyle(size)
-                ),
-                SizedBox(height: size.height * 0.05),
-        
-                _Email(user: user, size: size),
-                SizedBox(height: size.height * 0.05),
-        
-                _Leans(user: user, size: size),
-                SizedBox(height: size.height * 0.05),
-        
-                const _SignInButton()
-              ],
+            Text('¡Bienvenid@,', style: _textStyle(size)),
+            Text(
+              user?.displayName ?? 'Invitad@', 
+              style: _textStyle(size)
             ),
-          ),
-        ], 
+            SizedBox(height: size.height * 0.05),
+        
+            _Email(user: user, size: size),
+            SizedBox(height: size.height * 0.05),
+        
+            _Leans(user: user, size: size),
+            SizedBox(height: size.height * 0.05),
+        
+            const _SignInButton()
+          ],
+        ),
       )
     );
   }

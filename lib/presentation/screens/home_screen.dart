@@ -4,6 +4,7 @@ import 'package:biblio_tech_hub/presentation/views/loan_view.dart';
 import 'package:biblio_tech_hub/presentation/views/profile_view.dart';
 import 'package:biblio_tech_hub/presentation/views/search_view.dart';
 import 'package:biblio_tech_hub/presentation/screens/sign_in_screen.dart';
+import 'package:biblio_tech_hub/presentation/widgets/book_background.dart';
 import 'package:biblio_tech_hub/presentation/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,9 +32,15 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       extendBody: true,
-      body: IndexedStack(
-        index: pageIndex,
-        children: viewRoutes,
+      body: Stack(
+        children: [
+          BookBackground(),
+          IndexedStack(
+            index: pageIndex,
+            children: viewRoutes,
+          ),
+        ],
+        
       ),
       bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
     );
