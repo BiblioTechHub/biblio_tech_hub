@@ -152,7 +152,7 @@ class _Leans extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
           decoration: BoxDecoration(border: Border.all(width: 2), color: Colors.white),
-          child: const Text('Nº Prétamos Activos', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: const Text('Nº Préstamos Activos', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
