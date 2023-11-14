@@ -1,3 +1,4 @@
+import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,8 @@ class ProfileView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const AppLogo(),
+
             _ImageProfile(size: size, user: user),
             SizedBox(height: size.height * 0.05),
         
@@ -90,7 +93,7 @@ class _SignInButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
         )
       ),
-      child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black),),
+      child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black)),
       onPressed: () {
         context.read<UserCubit>().signOut();
       }
@@ -162,7 +165,7 @@ class _Leans extends StatelessWidget {
             color: Colors.white
           ),
           //TODO: Implementar el numero de prestamos
-          child: const Text('09'),
+          child: const Text('XX'),
         )
       ],
     );
