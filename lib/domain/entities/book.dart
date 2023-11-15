@@ -1,14 +1,16 @@
 
+import 'dart:ffi';
+
 class Book {
     final String title;
     final List<String> authors;
     final String publisher;
     final String publishedDate;
     final String description;
-    final Map<String, String>  isbn;
+    final Map<String, dynamic>  isbn;
     final int? pageCount;
-    final List<String> categories;
-    final Map<String, String> imageLinks;
+    final List<dynamic> categories;
+    final Map<String, dynamic> imageLinks;
     final String language;
     final String? subtitle;
 
@@ -25,4 +27,6 @@ class Book {
       required this.language,
       this.subtitle,
     });
+
+  toList() {}
 }

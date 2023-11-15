@@ -25,10 +25,10 @@ class BookDetails {
     final String publisher;
     final String publishedDate;
     final String description;
-    final Map<String, String> industryIdentifiers;
+    final List<dynamic> industryIdentifiers;
     final int? pageCount;
-    final List<String> categories;
-    final Map<String, String> imageLinks;
+    final List<dynamic> categories;
+    final Map<String, dynamic> imageLinks;
     final String language;
     final String? subtitle;
 
