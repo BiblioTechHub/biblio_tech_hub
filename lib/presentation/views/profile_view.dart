@@ -12,6 +12,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final User? user = context.watch<UserCubit>().state.user;
+    final userName = user?.displayName ?? 'Invitad@';
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
@@ -28,7 +29,7 @@ class ProfileView extends StatelessWidget {
         
             Text('¡Bienvenid@,', style: _textStyle(size)),
             Text(
-              user?.displayName ?? 'Invitad@', 
+              '$userName!',
               style: _textStyle(size)
             ),
             SizedBox(height: size.height * 0.05),
@@ -117,7 +118,7 @@ class _Email extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
           decoration: BoxDecoration(border: Border.all(width: 2), color: Colors.white),
-          child: const Text('Usuario', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: const Text('E-mail', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
@@ -129,7 +130,7 @@ class _Email extends StatelessWidget {
             ),
             color: Colors.white
           ),
-          child: Text(user?.email ?? 'invitado@gmail.com'),
+          child: Text(user?.email ?? 'Invitad@'),
         )
       ],
     );
