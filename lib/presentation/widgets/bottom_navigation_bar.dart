@@ -31,12 +31,16 @@ class CustomBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return BottomNavigationBar(
+      selectedItemColor: Color.fromARGB(150, 66, 12, 167),
       unselectedItemColor: Colors.black,
-      backgroundColor: const Color.fromARGB(159, 255, 255, 255),
+      backgroundColor: Color.fromARGB(159, 209, 204, 204),
       onTap: (value) => onItemTapped(context, value),
       type: BottomNavigationBarType.fixed,
       elevation: 0,
+      iconSize: size.height * 0.035,
       currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(
@@ -48,7 +52,7 @@ class CustomBottomNavigation extends StatelessWidget {
           label: 'Buscar'
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.menu_book_sharp),
+          icon: Icon(Icons.menu_book_rounded),
           label: 'Préstamos'
         ),
         BottomNavigationBarItem(

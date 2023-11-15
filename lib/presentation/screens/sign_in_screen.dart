@@ -1,4 +1,6 @@
+import 'package:biblio_tech_hub/presentation/widgets/logo_and_title.dart';
 import 'package:biblio_tech_hub/infrastructure/services/google_services.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,8 +57,8 @@ class GuestButton extends StatelessWidget {
         ),
 
       ), 
-      icon: const Icon(Icons.person, color: Colors.black),
-      label: const Text('Continuar como invitado', style: TextStyle(color: Colors.white),),
+      icon: const Icon(Icons.person, color: Colors.black, size: 38),
+      label: const Text('Continuar como invitado', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),),
       onPressed: () {
         context.read<UserCubit>().signIn(null, false);
         context.go('/home/0');
@@ -79,7 +81,7 @@ class SignInGoogleButton extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(3, 3, 12, 3),
         backgroundColor: const Color.fromRGBO(66, 133, 244, 1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(3.0),
+          borderRadius: BorderRadius.circular(5.0),
         ),
 
       ), 
@@ -90,7 +92,7 @@ class SignInGoogleButton extends StatelessWidget {
           child: Image.asset('assets/sign_in_google.png', width: size.width * 0.1)
         ),
       ), 
-      label: const Text('Sign up with Google', style: TextStyle(color: Colors.white),),
+      label: const Text('Inicia sesión con Google', style: TextStyle(color: Colors.white),),
       onPressed: () async {
         User? user = await GoogleServices.signIn();
         if(context.mounted && user != null){

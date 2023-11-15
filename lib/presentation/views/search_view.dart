@@ -1,3 +1,4 @@
+import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 
 class SearchView extends StatelessWidget {
@@ -8,7 +9,13 @@ class SearchView extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Text('SearchView'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            AppLogo(),
+            Text('Search View'),],
+        )
       ),
     );
   }

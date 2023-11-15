@@ -1,3 +1,4 @@
+import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final User? user = context.watch<UserCubit>().state.user;
+    final userName = user?.displayName ?? 'Invitad@';
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
@@ -20,12 +22,15 @@ class ProfileView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const AppLogo(),
+            SizedBox(height: size.height * 0.05),
+
             _ImageProfile(size: size, user: user),
             SizedBox(height: size.height * 0.05),
         
             Text('¡Bienvenid@,', style: _textStyle(size)),
             Text(
-              user?.displayName ?? 'Invitad@', 
+              '$userName!',
               style: _textStyle(size)
             ),
             SizedBox(height: size.height * 0.05),
@@ -36,7 +41,7 @@ class ProfileView extends StatelessWidget {
             _Leans(user: user, size: size),
             SizedBox(height: size.height * 0.07),
         
-            const _SignInButton(),
+            _SignOutButton(size: size),
             SizedBox(height: size.height * 0.07)
           ],
         ),
@@ -77,23 +82,31 @@ class _ImageProfile extends StatelessWidget {
   }
 }
 
-class _SignInButton extends StatelessWidget {
-  const _SignInButton();
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton({required this.size});
+
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xffdd5151),
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Colors.black, width: 2),
-          borderRadius: BorderRadius.circular(10)
-        )
+    
+    return Container(
+      width: size.width * 0.4,
+      height: size.height * 0.06,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          
+          backgroundColor: Color.fromARGB(255, 216, 41, 41),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.circular(10)
+          ),
+        ),
+        child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black)),
+        onPressed: () {
+          context.read<UserCubit>().signOut();
+        }
       ),
-      child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black),),
-      onPressed: () {
-        context.read<UserCubit>().signOut();
-      }
     );
   }
 }
@@ -114,7 +127,7 @@ class _Email extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
           decoration: BoxDecoration(border: Border.all(width: 2), color: Colors.white),
-          child: const Text('Usuario', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: const Text('E-mail', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
@@ -126,7 +139,7 @@ class _Email extends StatelessWidget {
             ),
             color: Colors.white
           ),
-          child: Text(user?.email ?? 'invitado@gmail.com'),
+          child: Text(user?.email ?? 'Invitad@'),
         )
       ],
     );
@@ -149,7 +162,7 @@ class _Leans extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
           decoration: BoxDecoration(border: Border.all(width: 2), color: Colors.white),
-          child: const Text('Nº Prétamos Activos', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: const Text('Nº Préstamos Activos', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         Container(
           padding: EdgeInsets.all(size.height * 0.009),
@@ -162,7 +175,7 @@ class _Leans extends StatelessWidget {
             color: Colors.white
           ),
           //TODO: Implementar el numero de prestamos
-          child: const Text('09'),
+          child: const Text('XX'),
         )
       ],
     );
