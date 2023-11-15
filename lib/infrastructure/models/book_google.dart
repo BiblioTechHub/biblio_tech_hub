@@ -1,14 +1,14 @@
 
-class Book {
+class BookGoogle {
     final String id;
     final BookDetails booksDetails;
 
-    Book({
+    BookGoogle({
         required this.id,
         required this.booksDetails,
     });
 
-    factory Book.fromJson(Map<String, dynamic> json) => Book(
+    factory BookGoogle.fromJson(Map<String, dynamic> json) => BookGoogle(
         id: json["id"],
         booksDetails: BookDetails.fromJson(json["volumeInfo"]),
     );
@@ -25,10 +25,10 @@ class BookDetails {
     final String publisher;
     final String publishedDate;
     final String description;
-    final List<IndustryIdentifier> industryIdentifiers;
+    final Map<String, String> industryIdentifiers;
     final int? pageCount;
     final List<String> categories;
-    final ImageLinks imageLinks;
+    final Map<String, String> imageLinks;
     final String language;
     final String? subtitle;
 
@@ -52,10 +52,10 @@ class BookDetails {
         publisher: json["publisher"],
         publishedDate: json["publishedDate"],
         description: json["description"],
-        industryIdentifiers: List<IndustryIdentifier>.from(json["industryIdentifiers"].map((x) => IndustryIdentifier.fromJson(x))),
+        industryIdentifiers: json['industryIdentifiers'],
         pageCount: json["pageCount"],
         categories: json['categories'],
-        imageLinks: ImageLinks.fromJson(json["imageLinks"]),
+        imageLinks: json['imageLinks'],
         language: json["language"],
         subtitle: json["subtitle"],
     );
@@ -66,51 +66,11 @@ class BookDetails {
         "publisher": publisher,
         "publishedDate": publishedDate,
         "description": description,
-        "industryIdentifiers": List<dynamic>.from(industryIdentifiers.map((x) => x.toJson())),
+        "industryIdentifiers": industryIdentifiers,
         "pageCount": pageCount,
         "categories": categories,
-        "imageLinks": imageLinks.toJson(),
+        "imageLinks": imageLinks,
         "language": language,
         "subtitle": subtitle,
-    };
-}
-
-class ImageLinks {
-    final String smallThumbnail;
-    final String thumbnail;
-
-    ImageLinks({
-        required this.smallThumbnail,
-        required this.thumbnail,
-    });
-
-    factory ImageLinks.fromJson(Map<String, dynamic> json) => ImageLinks(
-        smallThumbnail: json["smallThumbnail"],
-        thumbnail: json["thumbnail"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "smallThumbnail": smallThumbnail,
-        "thumbnail": thumbnail,
-    };
-}
-
-class IndustryIdentifier {
-    final String type;
-    final String identifier;
-
-    IndustryIdentifier({
-        required this.type,
-        required this.identifier,
-    });
-
-    factory IndustryIdentifier.fromJson(Map<String, dynamic> json) => IndustryIdentifier(
-        type: json["type"],
-        identifier: json["identifier"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "type": type,
-        "identifier": identifier,
     };
 }

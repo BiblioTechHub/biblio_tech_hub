@@ -4,7 +4,7 @@ import 'package:biblio_tech_hub/infrastructure/models/book_google.dart';
 class BookResponse {
     final String kind;
     final int totalItems;
-    final List<Book> books;
+    final List<BookGoogle> books;
 
     BookResponse({
         required this.kind,
@@ -15,7 +15,7 @@ class BookResponse {
     factory BookResponse.fromJson(Map<String, dynamic> json) => BookResponse(
         kind: json["kind"],
         totalItems: json["totalItems"],
-        books: List<Book>.from(json["items"].map((x) => Book.fromJson(x))),
+        books: List<BookGoogle>.from(json["items"].map((x) => BookGoogle.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
