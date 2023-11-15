@@ -31,6 +31,8 @@ class CustomBottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return BottomNavigationBar(
       selectedItemColor: Color.fromARGB(150, 66, 12, 167),
       unselectedItemColor: Colors.black,
@@ -38,7 +40,7 @@ class CustomBottomNavigation extends StatelessWidget {
       onTap: (value) => onItemTapped(context, value),
       type: BottomNavigationBarType.fixed,
       elevation: 0,
-      iconSize: 30,
+      iconSize: size.height * 0.035,
       currentIndex: currentIndex,
       items: const [
         BottomNavigationBarItem(

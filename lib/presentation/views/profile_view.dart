@@ -23,6 +23,7 @@ class ProfileView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const AppLogo(),
+            SizedBox(height: size.height * 0.05),
 
             _ImageProfile(size: size, user: user),
             SizedBox(height: size.height * 0.05),
