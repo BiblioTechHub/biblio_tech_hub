@@ -25,7 +25,7 @@ class LogoAndTitle extends StatelessWidget {
             ),
             child: Image.asset(
               'assets/logo.png',
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
           ),
           SizedBox(width: size.width * 0.02),
