@@ -41,7 +41,7 @@ class ProfileView extends StatelessWidget {
             _Leans(user: user, size: size),
             SizedBox(height: size.height * 0.07),
         
-            const _SignInButton(),
+            _SignOutButton(size: size),
             SizedBox(height: size.height * 0.07)
           ],
         ),
@@ -82,23 +82,31 @@ class _ImageProfile extends StatelessWidget {
   }
 }
 
-class _SignInButton extends StatelessWidget {
-  const _SignInButton();
+class _SignOutButton extends StatelessWidget {
+  const _SignOutButton({required this.size});
+
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xffdd5151),
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Colors.black, width: 2),
-          borderRadius: BorderRadius.circular(10)
-        )
+    
+    return Container(
+      width: size.width * 0.4,
+      height: size.height * 0.06,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          
+          backgroundColor: Color.fromARGB(255, 216, 41, 41),
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.circular(10)
+          ),
+        ),
+        child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black)),
+        onPressed: () {
+          context.read<UserCubit>().signOut();
+        }
       ),
-      child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black)),
-      onPressed: () {
-        context.read<UserCubit>().signOut();
-      }
     );
   }
 }
