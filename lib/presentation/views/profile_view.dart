@@ -12,6 +12,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final User? user = context.watch<UserCubit>().state.user;
+    //Hacer find(user.email) -> Nº préstamos
     final userName = user?.displayName ?? 'Invitad@';
     final size = MediaQuery.of(context).size;
     
@@ -176,6 +177,7 @@ class _Leans extends StatelessWidget {
           ),
           //TODO: Implementar el numero de prestamos
           child: const Text('XX'),
+          //Text(user?.borrows.length ?? 'XX'),
         )
       ],
     );
