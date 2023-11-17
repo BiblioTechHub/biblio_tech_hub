@@ -1,6 +1,4 @@
 
-import 'dart:ffi';
-
 class Book {
     final String title;
     final List<String> authors;

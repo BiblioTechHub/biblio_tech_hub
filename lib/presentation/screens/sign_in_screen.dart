@@ -1,4 +1,3 @@
-import 'package:biblio_tech_hub/presentation/widgets/logo_and_title.dart';
 import 'package:biblio_tech_hub/infrastructure/services/google_services.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';

@@ -90,13 +90,13 @@ class _SignOutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    return Container(
+    return SizedBox(
       width: size.width * 0.4,
       height: size.height * 0.06,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           
-          backgroundColor: Color.fromARGB(255, 216, 41, 41),
+          backgroundColor: const Color.fromARGB(255, 216, 41, 41),
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.black, width: 2),
             borderRadius: BorderRadius.circular(10)
