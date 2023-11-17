@@ -30,7 +30,9 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class HorizontalListView extends ConsumerStatefulWidget{
+
+
+class HorizontalListView extends ConsumerWidget {
   const HorizontalListView({super.key, 
     required this.size,
   });
@@ -38,39 +40,28 @@ class HorizontalListView extends ConsumerStatefulWidget{
   final Size size;
 
   @override
-  ConsumerState<HorizontalListView> createState() => _HorizontalListViewState();
-}
-
-class _HorizontalListViewState extends ConsumerState<HorizontalListView> {
-
-  @override
-  void initState() {
-    super.initState();
-    ref.watch(bookStockProvider.notifier).getBook();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    
     final books = ref.watch(bookStockProvider);
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: widget.size.width * 0.05, vertical: widget.size.height * 0.02),
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.02),
       decoration: const BoxDecoration(
         border: Border.symmetric(horizontal: BorderSide(width: 1)), 
         color: Colors.white
       ),
       alignment: Alignment.centerLeft,
-      width: widget.size.width,
-      height: widget.size.height * 0.5,
+      width: size.width,
+      height: size.height * 0.5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('LO MAS NUEVO >', style: TextStyle(fontFamily: 'Bangers', fontSize: widget.size.height * 0.04)),
+          Text('LO MAS NUEVO >', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
           Expanded(child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemCount: books.length,
             itemBuilder: (context, index) {
-              return _Slide(book: books[index], size: widget.size,);
+              return _Slide(book: books[index], size: size,);
             },
           ))
         ],
@@ -99,7 +90,7 @@ class _Slide extends StatelessWidget {
                 height: size.height * 0.3,
                 fit: BoxFit.fill,
                 placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
-                image: NetworkImage(book.imageLinks['smallThumbnail'])
+                image: NetworkImage(book.imageLinks)
               ),
             ),
           ),
