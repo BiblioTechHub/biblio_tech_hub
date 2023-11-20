@@ -26,9 +26,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   ];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ref.watch(bookStockProvider.notifier).getBook();
+  void initState() {
+    super.initState();
+    ref.read(bookStockProvider.notifier).getBook();
   }
 
   @override
