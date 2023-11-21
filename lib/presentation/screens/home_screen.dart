@@ -24,7 +24,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     ref.read(bookStockProvider.notifier).getBook();
-    ref.read(bookIsbnProvider.notifier).getBook();
   }
 
   @override
@@ -33,11 +32,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final book = ref.watch(bookIsbnProvider);   
 
     final viewRoutes = <Widget> [
-    // HomeView(),
-    BookInfoView(book: book),
-    SearchView(),
-    LoanView(),
-    ProfileView()
+    const HomeView(),
+    const SearchView(),
+    const LoanView(),
+    const ProfileView()
   ];
 
     if(context.watch<UserCubit>().state.isLogged == false 
