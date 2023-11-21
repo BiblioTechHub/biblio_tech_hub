@@ -25,10 +25,10 @@ class BookDetails {
     final String publisher;
     final String publishedDate;
     final String description;
-    final List<dynamic> industryIdentifiers;
+    final String isbn;
     final int? pageCount;
     final List<dynamic> categories;
-    final Map<String, dynamic> imageLinks;
+    final String imageLinks;
     final String language;
     final String? subtitle;
 
@@ -38,7 +38,7 @@ class BookDetails {
         required this.publisher,
         required this.publishedDate,
         required this.description,
-        required this.industryIdentifiers,
+        required this.isbn,
         this.pageCount,
         required this.categories,
         required this.imageLinks,
@@ -52,10 +52,10 @@ class BookDetails {
         publisher: json["publisher"],
         publishedDate: json["publishedDate"],
         description: json["description"],
-        industryIdentifiers: json['industryIdentifiers'],
+        isbn: json['industryIdentifiers'][0]['identifier'],
         pageCount: json["pageCount"],
         categories: json['categories'],
-        imageLinks: json['imageLinks'],
+        imageLinks: json['imageLinks']['smallThumbnail'],
         language: json["language"],
         subtitle: json["subtitle"],
     );
@@ -66,7 +66,7 @@ class BookDetails {
         "publisher": publisher,
         "publishedDate": publishedDate,
         "description": description,
-        "industryIdentifiers": industryIdentifiers,
+        "industryIdentifiers": isbn,
         "pageCount": pageCount,
         "categories": categories,
         "imageLinks": imageLinks,

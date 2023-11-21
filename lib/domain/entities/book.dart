@@ -1,16 +1,14 @@
 
-import 'dart:ffi';
-
 class Book {
     final String title;
     final List<String> authors;
     final String publisher;
     final String publishedDate;
     final String description;
-    final Map<String, dynamic>  isbn;
+    final String  isbn;
     final int? pageCount;
     final List<dynamic> categories;
-    final Map<String, dynamic> imageLinks;
+    final String imageLinks;
     final String language;
     final String? subtitle;
 

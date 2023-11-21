@@ -25,15 +25,16 @@ class LogoAndTitle extends StatelessWidget {
             ),
             child: Image.asset(
               'assets/logo.png',
+
               height: MediaQuery.of(context).size.height * 0.2,
             ),
           ),
           SizedBox(width: size.width * 0.02),
           Column(
             children: [
-              Text('Biblio', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
-              Text('Tech', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
-              Text('Hub', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04))
+              Text('Biblio', style: _textStyle(size)),
+              Text('Tech', style: _textStyle(size)),
+              Text('Hub', style: _textStyle(size))
             ],
           ),
           SizedBox(width: size.width * 0.02)
@@ -43,7 +44,7 @@ class LogoAndTitle extends StatelessWidget {
     );
   }
 
-  TextStyle _textStyle(BuildContext context, Size size){ 
+  TextStyle _textStyle(Size size){ 
     return TextStyle(
       fontFamily: 'Bangers', 
       fontSize: size.height * 0.04

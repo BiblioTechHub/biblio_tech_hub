@@ -34,9 +34,9 @@ class CustomBottomNavigation extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return BottomNavigationBar(
-      selectedItemColor: Color.fromARGB(150, 66, 12, 167),
+      selectedItemColor: const Color.fromARGB(150, 66, 12, 167),
       unselectedItemColor: Colors.black,
-      backgroundColor: Color.fromARGB(159, 209, 204, 204),
+      backgroundColor: const Color.fromARGB(159, 209, 204, 204),
       onTap: (value) => onItemTapped(context, value),
       type: BottomNavigationBarType.fixed,
       elevation: 0,
