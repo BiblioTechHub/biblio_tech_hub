@@ -40,7 +40,9 @@ class GoogleBookDatasource extends BookDatasource{
       }
     );
 
-    return _jsonToBooks(response.data);
+    return _jsonToBooks(response.data)
+      .where((book) => int.tryParse(book.isbn) != null)
+      .toList();
   }
 
   @override
