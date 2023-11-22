@@ -11,4 +11,9 @@ class BookRepositoryImpl extends BookRepository{
     return GoogleBookDatasource().getBookByISBN(isbn);
   }
 
+  @override
+  Future<Book> getBookByTitle(String title) {
+    return GoogleBookDatasource().getBookByTitle(title);
+  }
+
 }

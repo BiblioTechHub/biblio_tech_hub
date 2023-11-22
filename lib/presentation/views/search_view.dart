@@ -1,8 +1,23 @@
+import 'package:biblio_tech_hub/infrastructure/datasources/google_book_datasource.dart';
+import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class SearchView extends StatelessWidget {
-  const SearchView({super.key});
+class SearchView extends StatefulWidget {
+  const SearchView({Key? key}) : super(key: key);
+
+  @override
+  _SearchViewState createState() => _SearchViewState();
+}
+
+class _SearchViewState extends State<SearchView> {
+  final GoogleBookDatasource googleBookDatasource = GoogleBookDatasource();
+
+  
+  List<Book> listbooks = [];
+  Book? searchResult; // Cambié List<Book> a Book
+  Timer? _debounceTimer; // Nuevo: temporizador para la búsqueda después de la inactividad
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +46,12 @@ class SearchView extends StatelessWidget {
                       children: [
                         IconButton(
                           icon: const Icon(Icons.search),
-                          onPressed: () {
-                            // Lógica de búsqueda aquí
-                            print('Botón de búsqueda presionado');
+                          onPressed: () async {
+                            final result = await googleBookDatasource.getBookByISBN('9780134494166');
+
+                              setState(() {
+                                searchResult = result;
+                              });
                           },
                         ),
                         const SizedBox(width: 8.0),
@@ -45,9 +63,15 @@ class SearchView extends StatelessWidget {
                               border: InputBorder.none,
                               hintText: 'Buscar libros...',
                             ),
-                            onChanged: (query) {
+                            onChanged: (query) async {
                               // Manejar la lógica de búsqueda aquí
-                              print('Consulta de búsqueda: $query');
+                              if (_debounceTimer != null && _debounceTimer!.isActive) {
+                                _debounceTimer!.cancel();
+                              }
+                              _debounceTimer = Timer(const Duration(seconds: 2), () {
+                                // Nuevo: realizar la búsqueda después de 2 segundos de inactividad
+                                _searchBooks(query);
+                              });
                             },
                           ),
                         ),
@@ -58,15 +82,11 @@ class SearchView extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height * 0.688, // Ajusta la altura según tus necesidades
-              color: Colors.white, // Fondo blanco para el contenedor de libros
-              child: ListView.builder(
-                itemCount: 10, // Reemplaza con la longitud real de la lista de libros
-                itemBuilder: (context, index) {
-                  // Aquí puedes construir la vista del libro para cada elemento en la lista
-                  return buildLibroCard();
-                },
-              ),
+              height: size.height * 0.688,
+              color: Colors.white,
+              child: searchResult != null
+                  ? buildLibroCard(searchResult!)
+                  : Container(), // Mostrar el Card solo si hay un resultado
             ),
           ],
         ),
@@ -74,47 +94,54 @@ class SearchView extends StatelessWidget {
     );
   }
 
-  Widget buildLibroCard() {
-  // Ejemplo de datos de libro
-  String title = 'Título del Libro';
-  String author = 'Autor del Libro';
-  String year = '2023';
-  String description = 'Descripción del libro...';
+  void _searchBooks(String query) async {
+    final result = await googleBookDatasource.getBookByISBN(query);
 
-  return Card(
-    child: ListTile(
-      contentPadding: const EdgeInsets.all(16),
-      leading: Image.network(
-        'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ2n0C4rLOzlxj2JXNN2plb8ORuQ82BFLWfrjuR1UzHsJfKlIiqSj7Mu3RA0DHMvPgL22tPBZI6YxbyH08Emi_p9bYfcc4kZqB4vCXQh2Wx&usqp=CAc',
-        width: 100,
-        height: 140,
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 18, // Tamaño de letra para el título
-          fontWeight: FontWeight.bold, // Negrita
+    setState(() {
+      searchResult = result;
+    });
+  }
+
+  Widget buildLibroCard(Book book) {
+    String truncatedDescription = book.description.length > 100
+        ? '${book.description.substring(0, 100)}...'
+        : book.description;
+    return Card(
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: book.imageLinks != null
+            ? Image.network(
+                book.imageLinks!['thumbnail'] ?? '', // Usar la URL de la imagen si está presente
+                width: 100,
+                height: 140,
+              )
+            : Container(),
+        title: Text(
+          book.title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${book.authors} - ${book.publishedDate}',
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              truncatedDescription,
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
+          ],
         ),
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$author - $year',
-            style: const TextStyle(
-              fontStyle: FontStyle.italic, // Cursiva
-            ),
-          ),
-          const SizedBox(height: 8), // Espacio entre el autor y la descripción
-          Text(
-            description,
-            style: const TextStyle(
-              fontSize: 14, // Tamaño de letra para la descripción
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
+    );
+  }
 }
