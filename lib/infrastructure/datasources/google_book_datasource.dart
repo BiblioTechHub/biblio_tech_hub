@@ -11,7 +11,7 @@ class GoogleBookDatasource extends BookDatasource{
     baseUrl: 'https://www.googleapis.com/',
   ));
 
-  List<Book> _jsonToMovies(Map<String, dynamic> json){
+  List<Book> _jsonToBooks(Map<String, dynamic> json){
     final bookDBResponse = BookResponse.fromJson(json);
 
     final List<Book> books = bookDBResponse.books.map(
@@ -29,7 +29,7 @@ class GoogleBookDatasource extends BookDatasource{
       }
     );
 
-    return _jsonToMovies(response.data).first;
+    return _jsonToBooks(response.data).first;
   }
   
   @override
@@ -40,7 +40,7 @@ class GoogleBookDatasource extends BookDatasource{
       }
     );
 
-    return _jsonToMovies(response.data);
+    return _jsonToBooks(response.data);
   }
 
   @override
@@ -51,14 +51,7 @@ class GoogleBookDatasource extends BookDatasource{
       }
     );
 
-    return _jsonToMovies(response.data).first;
-  }
-
-  List<Book> _jsonToBooks(Map <String, dynamic> json) {
-    final bookDBResponse = BookResponse.fromJson(json);
-
-    final List<Book> books = bookDBResponse.books.map((book) => BookMapper.bookBDToEntity(book)).toList();
-    return books;
+    return _jsonToBooks(response.data).first;
   }
 
 }

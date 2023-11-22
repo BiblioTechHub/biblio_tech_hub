@@ -3,6 +3,7 @@
 import 'package:biblio_tech_hub/domain/datasources/book_datasource.dart';
 import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/domain/repositories/book_repository.dart';
+import 'package:biblio_tech_hub/infrastructure/datasources/google_book_datasource.dart';
 
 class BookRepositoryImpl extends BookRepository{
 

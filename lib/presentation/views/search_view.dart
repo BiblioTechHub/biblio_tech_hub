@@ -95,7 +95,7 @@ class _SearchViewState extends State<SearchView> {
   }
 
   void _searchBooks(String query) async {
-    final result = await googleBookDatasource.getBookByISBN(query);
+    final result = await googleBookDatasource.getBookByISBN("9780132350884");
 
     setState(() {
       searchResult = result;
@@ -109,13 +109,11 @@ class _SearchViewState extends State<SearchView> {
     return Card(
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
-        leading: book.imageLinks != null
-            ? Image.network(
-                book.imageLinks!['thumbnail'] ?? '', // Usar la URL de la imagen si está presente
-                width: 100,
-                height: 140,
-              )
-            : Container(),
+        leading: Image.network(
+          book.imageLinks, // Usar la URL de la imagen si está presente
+          width: 100,
+          height: 140,
+        ),
         title: Text(
           book.title,
           style: const TextStyle(
