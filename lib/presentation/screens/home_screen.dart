@@ -29,8 +29,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {   
 
-    final book = ref.watch(bookIsbnProvider);   
-
     final viewRoutes = <Widget> [
     const HomeView(),
     const SearchView(),

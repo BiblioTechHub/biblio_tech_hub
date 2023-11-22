@@ -3,6 +3,7 @@ import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/logo_and_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -78,28 +79,33 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(size.width * 0.03),
-      child: Column(
-        children: [
-          SizedBox(
-            width: size.width * 0.4,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: FadeInImage(
-                height: size.height * 0.3,
-                fit: BoxFit.fill,
-                placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
-                image: NetworkImage(book.imageLinks)
+    return GestureDetector(
+      child: Padding(
+        padding: EdgeInsets.all(size.width * 0.03),
+        child: Column(
+          children: [
+            SizedBox(
+              width: size.width * 0.4,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: FadeInImage(
+                  height: size.height * 0.3,
+                  fit: BoxFit.fill,
+                  placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
+                  image: NetworkImage(book.imageLinks)
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            width: size.width * 0.4,
-            child: Text(book.title, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 2)),
-          // SizedBox(width: size.width * 0.3)
-        ],
+            SizedBox(
+              width: size.width * 0.4,
+              child: Text(book.title, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 2)),
+            // SizedBox(width: size.width * 0.3)
+          ],
+        ),
       ),
+      onTap: () {
+        context.push('/book/${book.isbn}');
+      },
     );
   }
 }

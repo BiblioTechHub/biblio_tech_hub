@@ -1,16 +1,33 @@
 
 import 'package:biblio_tech_hub/domain/entities/book.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_isbn_details_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-class BookInfoView extends StatelessWidget {
-  BookInfoView({super.key, required this.book});
+class BookInfoView extends ConsumerStatefulWidget {
+  BookInfoView({super.key, required this.isbn});
 
-  Book book;
+  int isbn;
+
+  @override
+  ConsumerState<BookInfoView> createState() => _BookInfoViewState();
+}
+
+class _BookInfoViewState extends ConsumerState<BookInfoView> {
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(bookIsbnDetailsProvider.notifier).getBook(widget.isbn.toString());
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final book = ref.watch(bookIsbnDetailsProvider);
     final size = MediaQuery.of(context).size;
 
     return Center(
