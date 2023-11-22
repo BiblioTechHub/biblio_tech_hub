@@ -43,6 +43,22 @@ class GoogleBookDatasource extends BookDatasource{
     return _jsonToMovies(response.data);
   }
 
-  
+  @override
+  Future<Book> getBookByTitle(String title) async {
+    final response = await dio.get('books/v1/volumes',
+      queryParameters: {
+        'q' : 'intitle:$title'
+      }
+    );
+
+    return _jsonToMovies(response.data).first;
+  }
+
+  List<Book> _jsonToBooks(Map <String, dynamic> json) {
+    final bookDBResponse = BookResponse.fromJson(json);
+
+    final List<Book> books = bookDBResponse.books.map((book) => BookMapper.bookBDToEntity(book)).toList();
+    return books;
+  }
 
 }
