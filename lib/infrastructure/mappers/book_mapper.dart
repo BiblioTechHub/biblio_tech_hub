@@ -9,9 +9,10 @@ class BookMapper {
     publisher: bookdb.booksDetails.publisher, 
     publishedDate: bookdb.booksDetails.publishedDate, 
     description: bookdb.booksDetails.description, 
-    isbn: bookdb.booksDetails.industryIdentifiers.last, 
+    isbn: bookdb.booksDetails.isbn, 
     categories: bookdb.booksDetails.categories, 
     imageLinks: bookdb.booksDetails.imageLinks, 
-    language: bookdb.booksDetails.language
+    language: bookdb.booksDetails.language, 
+    pageCount: bookdb.booksDetails.pageCount
   );
 }

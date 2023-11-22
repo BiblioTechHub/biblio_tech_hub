@@ -4,6 +4,8 @@ abstract class BookDatasource {
 
   Future<Book> getBookByISBN(String isbn);
 
+  Future<List<Book>> getBookDrama();
+
   Future<Book> getBookByTitle(String title);
 
 }
