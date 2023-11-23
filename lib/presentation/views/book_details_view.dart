@@ -24,7 +24,7 @@ class BookDetailsView extends ConsumerWidget {
           const BookBackground(),
           SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: size.height * 0.067),
                 AppLogo(),
