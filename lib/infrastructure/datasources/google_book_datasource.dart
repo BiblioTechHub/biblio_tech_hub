@@ -28,7 +28,6 @@ class GoogleBookDatasource extends BookDatasource{
         'q' : 'isbn:$isbn'
       }
     );
-
     return _jsonToBooks(response.data).first;
   }
   
@@ -41,7 +40,7 @@ class GoogleBookDatasource extends BookDatasource{
     );
 
     return _jsonToBooks(response.data)
-      .where((book) => int.tryParse(book.isbn) != null)
+      .where((book) => int.tryParse(book.isbn[0]) != null)
       .toList();
   }
 

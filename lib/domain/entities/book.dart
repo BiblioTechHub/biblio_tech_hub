@@ -26,5 +26,19 @@ class Book {
       this.subtitle,
     });
 
+    factory Book.empty() {
+      return Book(
+        title: '',
+        authors: [],
+        publisher: '',
+        publishedDate: '',
+        description: '',
+        isbn: '',
+        categories: [],
+        imageLinks: '',
+        language: '',
+      );
+    }
+
   toList() {}
 }

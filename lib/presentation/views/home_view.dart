@@ -1,7 +1,9 @@
 import 'package:biblio_tech_hub/domain/entities/book.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/logo_and_title.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -71,14 +73,14 @@ class HorizontalListView extends ConsumerWidget {
   }
 }
 
-class _Slide extends StatelessWidget {
+class _Slide extends ConsumerWidget {
   const _Slide({required this.book, required this.size});
 
   final Book book;
   final Size size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       child: Padding(
         padding: EdgeInsets.all(size.width * 0.03),
@@ -103,8 +105,9 @@ class _Slide extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        context.push('/book/${book.isbn}');
+      onTap: () async {
+        ref.read(bookDetailsViewProvider.notifier).setBook(book);
+        context.push('/home/0/book/${book.isbn}');
       },
     );
   }

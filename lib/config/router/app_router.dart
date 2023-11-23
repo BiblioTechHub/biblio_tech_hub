@@ -1,5 +1,4 @@
 
-import 'package:biblio_tech_hub/presentation/riverpod/book_isbn_details_provider.dart';
 import 'package:biblio_tech_hub/presentation/screens/home_screen.dart';
 import 'package:biblio_tech_hub/presentation/views/views.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +13,19 @@ final appRouter = GoRouter(
         final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
         return HomeScreen(pageIndex: pageIndex);
       },
+      routes: [
+        GoRoute(
+          path: 'book/:isbn',
+          builder: (context, state) {
+            // final String isbn = state.pathParameters['isbn'] ?? '';
+            // if(int.tryParse(isbn) == null) {
+            //   return BookDetailsView(isbn: isbn.substring(4));
+            // }
+            return BookDetailsView();
+          },
+        )
+      ]
     ),
-    GoRoute(
-      path: '/book/:isbn',
-      builder: (context, state) {
-        final isbn = int.parse(state.pathParameters['isbn'] ?? '');
-        return BookInfoView(isbn: isbn);
-      },
-    )
+    
   ]
 );
