@@ -15,15 +15,16 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: size.height * 0.08),
-            const LogoAndTitle(),
             SizedBox(height: size.height * 0.05),
-
+            const LogoAndTitle(),
+            SizedBox(height: size.height * 0.02),
+            HorizontalListView(size: size),
+            SizedBox(height: size.height * 0.03),
             HorizontalListView(size: size),
           ]
         ),
@@ -57,7 +58,7 @@ class HorizontalListView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('LO MAS NUEVO >', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
+          Text('LO MÁS NUEVO >', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
           Expanded(child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -90,7 +91,7 @@ class _Slide extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: FadeInImage(
-                  height: size.height * 0.3,
+                  height: size.height * 0.26,
                   fit: BoxFit.fill,
                   placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
                   image: NetworkImage(book.imageLinks)

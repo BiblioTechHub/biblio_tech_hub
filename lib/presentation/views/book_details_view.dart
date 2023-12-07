@@ -114,13 +114,14 @@ class _Body extends StatelessWidget {
         children: [
           Text('Acerca del libro', style: TextStyle(fontSize: size.height * 0.025 , fontWeight: FontWeight.bold)),
           SizedBox(height: size.height * 0.015),
-          Text('ISBN: ${book.isbn}', style: TextStyle(fontSize: size.height * 0.02)),
+          //tiene que estar el texto en cursiva
+          Text('ISBN: ${book.isbn}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic)),
           SizedBox(height: size.height * 0.015),
           Text('Número de páginas: ${book.pageCount}', style: TextStyle(fontSize: size.height * 0.02)),
           SizedBox(height: size.height * 0.015),
-          Text('Editorial: ${book.publisher}', style: TextStyle(fontSize: size.height * 0.02)),
+          Text('Editorial: ${book.publisher}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic)),
           SizedBox(height: size.height * 0.015),
-          Text('Sinopsis: ${book.description}', style: TextStyle(fontSize: size.height * 0.02), maxLines: 6),
+          Text('Sinopsis: ${book.description}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic), maxLines: 6),
         ],
       ), 
     );
@@ -156,10 +157,10 @@ class _Header extends StatelessWidget {
               SizedBox(height: size.height * 0.02),
               Text('Fecha de Publicación: ${book.publishedDate}', style: Theme.of(context).textTheme.titleSmall),
               
-              // TODO: Compribar si el libro esta prestado
+              // TODO: Comprobar si el libro esta prestado
               SizedBox(height: size.height * 0.02),
               Container(
-                color: Colors.black54,
+                color: const Color.fromARGB(137, 117, 117, 117),
                 width: double.maxFinite,
                 padding: EdgeInsets.all(size.width * 0.01),
                 child: const Text('Fecha de devolución: \nXXXX', textAlign: TextAlign.center)
