@@ -42,7 +42,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     return Scaffold(
-      extendBody: true,
+      extendBody: false,
       body: Stack(
         children: [
           const BookBackground(),

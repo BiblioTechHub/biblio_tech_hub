@@ -2,6 +2,7 @@ import 'package:biblio_tech_hub/infrastructure/datasources/google_book_datasourc
 import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'dart:async';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'dart:convert';
@@ -89,55 +90,17 @@ class _SearchViewState extends State<SearchView> {
                     ],
                   ),
                 ),
-                Container(
-                  height: size.height * 0.688,
-                  color: Colors.white,
-                  child: searchResult != null
-                      ? buildLibroCard(searchResult!)
-                      : Container(),
-                ),
+
+                searchResult != null
+                ? buildLibroCard(searchResult!)
+                : Container(),
               ],
             ),
           ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  isNFCButtonActive = !isNFCButtonActive;
-                });
-              },
-              child: Image.asset(
-                'assets/logo_nfc.png',
-                width: 36.0,
-                height: 36.0,
-              ),
-            ),
-          ),
-          if (isNFCButtonActive) ...[
-            Positioned(
-              bottom: 72.0,
-              right: 16.0,
-              child: ElevatedButton(
-                onPressed: _tagRead,
-                child: const Text('Tag Read'),
-              ),
-            ),
-            Positioned(
-              bottom: 128.0,
-              right: 16.0,
-              child: ElevatedButton(
-                onPressed: () {
-                  String isbnToWrite = '9780134494166';
-                  _ndefWrite(isbnToWrite);
-                },
-                child: const Text('Tag Write'),
-              ),
-            ),
-          ],
         ],
       ),
+
+      floatingActionButton: nfcButton()
     );
   }
 
@@ -233,4 +196,31 @@ class _SearchViewState extends State<SearchView> {
       ),
     );
   }
+
+  Widget nfcButton() {
+    return SpeedDial(
+      closeManually: true,
+      overlayOpacity: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      children: [
+        SpeedDialChild(
+          label: 'Tag Read',
+          onTap: _tagRead
+        ),
+        SpeedDialChild(
+          label: 'Tag Write',
+          onTap: () {
+            String isbnToWrite = '9780134494166';
+            _ndefWrite(isbnToWrite);
+          }
+        )
+      ],
+      child: Image.asset(
+        'assets/logo_nfc.png',
+        width: 36.0,
+        height: 36.0,
+      ),
+    );
+  }
+
 }
