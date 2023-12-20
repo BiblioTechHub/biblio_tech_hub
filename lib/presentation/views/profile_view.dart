@@ -1,17 +1,19 @@
+import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:biblio_tech_hub/presentation/blocs/user_cubit/user_cubit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
-    final User? user = context.watch<UserCubit>().state.user;
+    final User? user = ref.watch(userProvider).user;
     //Hacer find(user.email) -> Nº préstamos
     final userName = user?.displayName ?? 'Invitad@';
     final size = MediaQuery.of(context).size;
@@ -83,13 +85,13 @@ class _ImageProfile extends StatelessWidget {
   }
 }
 
-class _SignOutButton extends StatelessWidget {
+class _SignOutButton extends ConsumerWidget {
   const _SignOutButton({required this.size});
 
   final Size size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     
     return SizedBox(
       width: size.width * 0.4,
@@ -105,7 +107,7 @@ class _SignOutButton extends StatelessWidget {
         ),
         child: const Text('Cerrar Sesión', style: TextStyle(color: Colors.black)),
         onPressed: () {
-          context.read<UserCubit>().signOut();
+          ref.read(userProvider.notifier).signOut();
         }
       ),
     );

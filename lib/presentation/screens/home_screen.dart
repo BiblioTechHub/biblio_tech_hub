@@ -1,5 +1,6 @@
 // import 'package:biblio_tech_hub/presentation/riverpod/book_isbn_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,8 +37,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const ProfileView()
   ];
 
-    if(context.watch<UserCubit>().state.isLogged == false 
-        && context.watch<UserCubit>().state.isGuest == false){
+    if(ref.watch(userProvider).isLogged == false 
+        && ref.watch(userProvider).isGuest == false){
       return const SignInScreen();
     }
 

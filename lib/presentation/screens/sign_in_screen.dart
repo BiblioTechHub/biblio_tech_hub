@@ -1,8 +1,10 @@
 import 'package:biblio_tech_hub/infrastructure/services/google_services.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:biblio_tech_hub/presentation/blocs/user_cubit/user_cubit.dart';
@@ -40,13 +42,13 @@ class SignInScreen extends StatelessWidget {
   }
 }
 
-class GuestButton extends StatelessWidget {
+class GuestButton extends ConsumerWidget {
   const GuestButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.fromLTRB(5, 3, 12, 3),
@@ -59,20 +61,20 @@ class GuestButton extends StatelessWidget {
       icon: const Icon(Icons.person, color: Colors.black, size: 38),
       label: const Text('Continuar como invitado', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),),
       onPressed: () {
-        context.read<UserCubit>().signIn(null, false);
+        ref.read(userProvider.notifier).signIn(null, false);
         context.go('/home/0');
       }, 
     );
   }
 }
 
-class SignInGoogleButton extends StatelessWidget {
+class SignInGoogleButton extends ConsumerWidget {
   const SignInGoogleButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return ElevatedButton.icon(
@@ -95,7 +97,7 @@ class SignInGoogleButton extends StatelessWidget {
       onPressed: () async {
         User? user = await GoogleServices.signIn();
         if(context.mounted && user != null){
-          context.read<UserCubit>().signIn(user, true);
+          ref.read(userProvider.notifier).signIn(user, true);
           context.go('/home/0');
         }  
       }, 
