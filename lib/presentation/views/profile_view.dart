@@ -2,9 +2,7 @@ import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:biblio_tech_hub/presentation/blocs/user_cubit/user_cubit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfileView extends ConsumerWidget {
