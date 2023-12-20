@@ -20,9 +20,9 @@ class ProfileView extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: size.height * 0.067),
             const AppLogo(),
             SizedBox(height: size.height * 0.05),
 
@@ -43,7 +43,7 @@ class ProfileView extends StatelessWidget {
             SizedBox(height: size.height * 0.07),
         
             _SignOutButton(size: size),
-            SizedBox(height: size.height * 0.07)
+
           ],
         ),
       )

@@ -13,6 +13,7 @@ class LoanView extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(height: size.height * 0.067),
           const AppLogo(),
           SizedBox(height: size.height * 0.03),
           Container(
