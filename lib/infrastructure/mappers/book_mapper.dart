@@ -6,7 +6,7 @@ class BookMapper {
   static Book bookBDToEntity(BookGoogle bookdb) => Book(
     title: bookdb.booksDetails.title, 
     authors:  bookdb.booksDetails.authors, 
-    publisher: bookdb.booksDetails.publisher, 
+    publisher: bookdb.booksDetails.publisher ?? '', 
     publishedDate: bookdb.booksDetails.publishedDate, 
     description: bookdb.booksDetails.description, 
     isbn: bookdb.booksDetails.isbn, 

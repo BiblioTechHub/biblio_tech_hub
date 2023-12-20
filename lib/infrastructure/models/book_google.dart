@@ -22,7 +22,7 @@ class BookGoogle {
 class BookDetails {
     final String title;
     final List<String> authors;
-    final String publisher;
+    final String? publisher;
     final String publishedDate;
     final String description;
     final String isbn;
