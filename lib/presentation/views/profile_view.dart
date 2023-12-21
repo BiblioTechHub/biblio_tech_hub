@@ -177,7 +177,7 @@ class _Leans extends StatelessWidget {
           ),
           //TODO: Implementar el numero de prestamos
           child: const Text('XX'),
-          //Text(user?.borrows.length ?? 'XX'),
+          //Text(user?.loans.length ?? 'XX'),
         )
       ],
     );

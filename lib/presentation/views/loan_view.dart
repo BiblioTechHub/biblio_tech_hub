@@ -1,6 +1,6 @@
 
 import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider.dart';
-import 'package:biblio_tech_hub/presentation/riverpod/borrows_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class LoanView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     
     final size = MediaQuery.of(context).size;
-    final borrow = ref.watch(borrowsProvider);
+    final loan = ref.watch(loansUserProvider);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -40,9 +40,9 @@ class LoanView extends ConsumerWidget {
               color: Colors.white,
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.01),
-                itemCount: borrow.length,
+                itemCount: loan.length,
                 itemBuilder: (context, index) {
-                  return _CardBorrow(borrow: ref.watch(borrowsProvider)[index], size: size);
+                  return _Cardloan(loan: ref.watch(loansUserProvider)[index], size: size);
                 },
               ),
             ),
@@ -53,10 +53,10 @@ class LoanView extends ConsumerWidget {
   }
 }
 
-class _CardBorrow extends ConsumerWidget {
-  const _CardBorrow({required this.borrow, required this.size});
+class _Cardloan extends ConsumerWidget {
+  const _Cardloan({required this.loan, required this.size});
 
-  final BorrowState borrow;
+  final loanState loan;
   final Size size;
 
   @override
@@ -69,13 +69,13 @@ class _CardBorrow extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  borrow.book.imageLinks == ''
+                  loan.book.imageLinks == ''
                   ? Image.asset(
                       'assets/default_imagen_book.png',
                       height: size.height * 0.13,
                     )
                   : Image.network(
-                      borrow.book.imageLinks,
+                      loan.book.imageLinks,
                       height: size.height * 0.13,
                     ),
                   SizedBox(width: size.width * 0.04),
@@ -84,7 +84,7 @@ class _CardBorrow extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          borrow.book.title,
+                          loan.book.title,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -92,14 +92,14 @@ class _CardBorrow extends ConsumerWidget {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '${borrow.book.authors} - ${borrow.book.publishedDate}',
+                          '${loan.book.authors} - ${loan.book.publishedDate}',
                           style: const TextStyle(
                             fontStyle: FontStyle.italic,
                           ),
                         ),
                         SizedBox(height: 8),
                         Text(
-                          borrow.book.description, 
+                          loan.book.description, 
                           overflow: TextOverflow.ellipsis, 
                           maxLines: 3,
                           style: const TextStyle(
@@ -113,7 +113,7 @@ class _CardBorrow extends ConsumerWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Fecha de Devolución: ${formatDate(borrow.expirationDate)}',
+                'Fecha de Devolución: ${formatDate(loan.expirationDate)}',
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: 18
@@ -124,7 +124,7 @@ class _CardBorrow extends ConsumerWidget {
         )
       ),
       onTap: () async {
-        ref.read(bookDetailsViewProvider.notifier).setBook(borrow.book);
+        ref.read(bookDetailsViewProvider.notifier).setBook(loan.book);
         context.push('/home/0/book/${2}');
       },
     );

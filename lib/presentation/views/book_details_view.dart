@@ -49,7 +49,7 @@ class BookDetailsView extends ConsumerWidget {
                 ),
 
                 //TODO: Controlar la visualizacion de los botones
-                //* Button 'RequestBorrow'
+                //* Button 'Requestloan'
                 ElevatedButton(
                   style: _buttonStyle(size, const Color(0xFF8C42F7)),
                   onPressed: () {
