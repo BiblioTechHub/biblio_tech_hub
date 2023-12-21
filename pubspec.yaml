@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.1.5 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.13.6
   dio: ^5.3.3
   equatable: ^2.0.5
   firebase_auth: ^4.13.0

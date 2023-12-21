@@ -1,4 +1,5 @@
 import 'package:biblio_tech_hub/infrastructure/services/google_services.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/borrows_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -96,6 +97,7 @@ class SignInGoogleButton extends ConsumerWidget {
         User? user = await GoogleServices.signIn();
         if(context.mounted && user != null){
           ref.read(userProvider.notifier).signIn(user, true);
+          ref.read(borrowsProvider.notifier).getBorrows();
           context.go('/home/0');
         }  
       }, 
