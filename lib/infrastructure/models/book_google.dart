@@ -47,17 +47,21 @@ class BookDetails {
     });
 
     factory BookDetails.fromJson(Map<String, dynamic> json) => BookDetails(
-        title: json["title"],
-        authors: List<String>.from(json["authors"].map((x) => x)),
-        publisher: json["publisher"],
-        publishedDate: json["publishedDate"],
-        description: json["description"],
-        isbn: json['industryIdentifiers'][0]['identifier'],
-        pageCount: json["pageCount"],
-        categories: json['categories'],
+        title: json["title"] ?? '',
+        authors: List<String>.from(
+          json["authors"] == null
+            ? []
+            : json["authors"].map((x) => x)
+        ),
+        publisher: json["publisher"] ?? '',
+        publishedDate: json["publishedDate"] ?? '',
+        description: json["description"] ?? '',
+        isbn: json['industryIdentifiers'] == null ? '' : json['industryIdentifiers'][0]['identifier'],
+        pageCount: json["pageCount"] ?? 0,
+        categories: json['categories'] ?? [],
         imageLinks: json['imageLinks'] == null ? '' : json['imageLinks']['smallThumbnail'],
-        language: json["language"],
-        subtitle: json["subtitle"],
+        language: json["language"] ?? '',
+        subtitle: json["subtitle"] ?? '',
     );
 
     Map<String, dynamic> toJson() => {

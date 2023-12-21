@@ -63,7 +63,7 @@ class _SearchViewState extends State<SearchView> {
                       _debounceTimer?.cancel();
             
                       _debounceTimer = Timer(const Duration(seconds: 2), () {
-                        _searchBooks(query);
+                        if(query != '') _searchBooks(query);
                       });
                     },
                   ),

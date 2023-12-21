@@ -4,6 +4,7 @@ import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 
 
@@ -82,6 +83,14 @@ class BookDetailsView extends ConsumerWidget {
           )
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(top: size.height * 0.015),
+        child: FloatingActionButton(
+          child: Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+      ),
       bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
     );
   }
@@ -125,7 +134,7 @@ class _Body extends StatelessWidget {
           SizedBox(height: size.height * 0.015),
           Text('Editorial: ${book.publisher}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic)),
           SizedBox(height: size.height * 0.015),
-          Text('Sinopsis: ${book.description}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic), maxLines: 6),
+          Text('Sinopsis: ${book.description}', style: TextStyle(fontSize: size.height * 0.02, fontStyle: FontStyle.italic), maxLines: 10),
         ],
       ), 
     );
