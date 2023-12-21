@@ -45,14 +45,14 @@ class GoogleBookDatasource extends BookDatasource{
   }
 
   @override
-  Future<Book> getBookByTitle(String title) async {
+  Future<List<Book>> getBookByTitle(String title) async {
     final response = await dio.get('books/v1/volumes',
       queryParameters: {
         'q' : 'intitle:$title'
       }
     );
 
-    return _jsonToBooks(response.data).first;
+    return _jsonToBooks(response.data);
   }
 
 }

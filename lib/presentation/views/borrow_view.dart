@@ -69,10 +69,15 @@ class _CardBorrow extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  Image.network(
-                    borrow.book.imageLinks,
-                    height: size.height * 0.13,
-                  ),
+                  borrow.book.imageLinks == ''
+                  ? Image.asset(
+                      'assets/default_imagen_book.png',
+                      height: size.height * 0.13,
+                    )
+                  : Image.network(
+                      borrow.book.imageLinks,
+                      height: size.height * 0.13,
+                    ),
                   SizedBox(width: size.width * 0.04),
                   Expanded(
                     child: Column(

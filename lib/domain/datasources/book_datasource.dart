@@ -6,6 +6,6 @@ abstract class BookDatasource {
 
   Future<List<Book>> getBookDrama();
 
-  Future<Book> getBookByTitle(String title);
+  Future<List<Book>> getBookByTitle(String title);
 
 }

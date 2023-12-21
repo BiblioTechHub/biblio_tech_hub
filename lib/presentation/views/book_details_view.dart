@@ -145,10 +145,15 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Image.network(
-          book.imageLinks,
-          height: size.height * 0.25,
-        ),
+        book.imageLinks == ''
+        ? Image.asset(
+            'assets/default_imagen_book.png',
+            height: size.height * 0.25,
+          )
+        : Image.network(
+            book.imageLinks,
+            height: size.height * 0.25,
+          ),
         SizedBox(width: size.width * 0.05),
 
         Expanded(

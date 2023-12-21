@@ -20,16 +20,16 @@ class BookGoogle {
 }
 
 class BookDetails {
-    final String title;
-    final List<String> authors;
+    final String? title;
+    final List<String>? authors;
     final String? publisher;
-    final String publishedDate;
-    final String description;
-    final String isbn;
+    final String? publishedDate;
+    final String? description;
+    final String? isbn;
     final int? pageCount;
-    final List<dynamic> categories;
-    final String imageLinks;
-    final String language;
+    final List<dynamic>? categories;
+    final String? imageLinks;
+    final String? language;
     final String? subtitle;
 
     BookDetails({
@@ -55,14 +55,14 @@ class BookDetails {
         isbn: json['industryIdentifiers'][0]['identifier'],
         pageCount: json["pageCount"],
         categories: json['categories'],
-        imageLinks: json['imageLinks']['smallThumbnail'],
+        imageLinks: json['imageLinks'] == null ? '' : json['imageLinks']['smallThumbnail'],
         language: json["language"],
         subtitle: json["subtitle"],
     );
 
     Map<String, dynamic> toJson() => {
         "title": title,
-        "authors": List<dynamic>.from(authors.map((x) => x)),
+        "authors": List<dynamic>.from(authors!.map((x) => x)),
         "publisher": publisher,
         "publishedDate": publishedDate,
         "description": description,
