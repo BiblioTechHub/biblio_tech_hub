@@ -32,7 +32,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const HomeView(),
     const SearchView(),
     const LoanView(),
-    const ProfileView()
+    const ProfileView(),
+    // const BookDetailsView()
   ];
 
     if(ref.watch(userProvider).isLogged == false 

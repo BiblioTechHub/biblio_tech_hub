@@ -41,7 +41,7 @@ class CustomBottomNavigation extends StatelessWidget {
       type: BottomNavigationBarType.fixed,
       elevation: 0,
       iconSize: size.height * 0.035,
-      currentIndex: currentIndex,
+      currentIndex: currentIndex >= 4 ? 0 : currentIndex,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_rounded),

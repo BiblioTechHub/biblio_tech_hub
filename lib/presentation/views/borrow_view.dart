@@ -120,7 +120,7 @@ class _CardBorrow extends ConsumerWidget {
       ),
       onTap: () async {
         ref.read(bookDetailsViewProvider.notifier).setBook(borrow.book);
-        context.push('/home/0/book/${borrow.book.isbn}');
+        context.push('/home/0/book/${2}');
       },
     );
   }

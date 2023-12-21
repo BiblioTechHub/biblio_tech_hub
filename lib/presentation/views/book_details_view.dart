@@ -10,10 +10,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookDetailsView extends ConsumerWidget {
 
-  const BookDetailsView({super.key});
+  const BookDetailsView({super.key, required this.pageIndex});
+
+  final int pageIndex;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final book = ref.watch(bookDetailsViewProvider);
     final size = MediaQuery.of(context).size;
 
@@ -79,6 +82,7 @@ class BookDetailsView extends ConsumerWidget {
           )
         ],
       ),
+      bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
     );
   }
 

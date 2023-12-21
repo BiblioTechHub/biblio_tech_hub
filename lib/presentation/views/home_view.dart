@@ -107,7 +107,7 @@ class _Slide extends ConsumerWidget {
       ),
       onTap: () async {
         ref.read(bookDetailsViewProvider.notifier).setBook(book);
-        context.push('/home/0/book/${book.isbn}');
+        context.push('/home/0/book/${0}');
       },
     );
   }

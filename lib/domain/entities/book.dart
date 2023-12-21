@@ -29,12 +29,12 @@ class Book {
     factory Book.empty() {
       return Book(
         title: '',
-        authors: [],
+        authors: ['', ''],
         publisher: '',
         publishedDate: '',
         description: '',
         isbn: '',
-        categories: [],
+        categories: ['', ''],
         imageLinks: '',
         language: '',
       );
