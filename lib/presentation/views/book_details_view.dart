@@ -1,6 +1,8 @@
 
 import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,7 @@ class BookDetailsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final book = ref.watch(bookDetailsViewProvider);
+    final List<BookState> bookStock = ref.watch(bookStockProvider);
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -31,53 +34,23 @@ class BookDetailsView extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: size.height * 0.067),
-                AppLogo(),
+                const AppLogo(),
                 SizedBox(height: size.height * 0.03),
             
                 //* Card
                 Container(
                   color: Colors.white,
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
                       //* Header
                       _Header(size: size, book: book),
-            
                       _Body(size: size, book: book)
                     ],
                   ),
                 ),
-
-                //TODO: Controlar la visualizacion de los botones
-                //* Button 'Requestloan'
-                ElevatedButton(
-                  style: _buttonStyle(size, const Color(0xFF8C42F7)),
-                  onPressed: () {
-                  
-                  },
-                  child: const Text('Solicitar préstamo', style: TextStyle(color: Colors.black),), 
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //* Button 'ExtendBook'
-                    ElevatedButton(
-                      style: _buttonStyle(size, const Color(0xFFD5E191)),
-                      onPressed: () {
-                      
-                      },
-                      child: const Text('Ampliar préstamo', style: TextStyle(color: Colors.black),), 
-                    ),
-                    ElevatedButton(
-                      style: _buttonStyle(size, const Color(0xFFFF9B4E)),
-                      onPressed: () {
-                      
-                      },
-                      child: const Text('Devolver préstamo', style: TextStyle(color: Colors.black),), 
-                    )
-                  ],
-                ),
+                
+                _RequestLoanButton(bookStock: bookStock, isbn: book.isbn, size: size),
               ],
             ),
           )
@@ -87,12 +60,62 @@ class BookDetailsView extends ConsumerWidget {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(top: size.height * 0.015),
         child: FloatingActionButton(
-          child: Icon(Icons.arrow_back),
+          child: const Icon(Icons.arrow_back),
           onPressed: () => context.pop(),
         ),
       ),
       bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
     );
+  }
+}
+
+class _RequestLoanButton extends ConsumerWidget {
+  const _RequestLoanButton({required this.bookStock, required this.isbn, required this.size});
+
+  final List<BookState> bookStock;
+  final String isbn;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final loanISBNBook = List<String>.from(ref.watch(loansUserProvider).map((e) => e.book.isbn));
+
+    for(var book_ in bookStock){
+      if(book_.book.isbn == isbn && book_.isAvailable && !book_.isBorrowed) {
+        return ElevatedButton(
+          style: _buttonStyle(size, const Color(0xFF8C42F7)),
+          onPressed: () {
+            //TODO: Implementar funcionalidad
+          },
+          child: const Text('Solicitar préstamo', style: TextStyle(color: Colors.black),), 
+        );
+      }else if(book_.book.isbn == isbn && book_.isAvailable 
+                && book_.isBorrowed && loanISBNBook.contains(isbn)) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            //* Button 'ExtendBook'
+            ElevatedButton(
+              style: _buttonStyle(size, const Color(0xFFD5E191)),
+              onPressed: () {
+                //TODO: Implementar funcion
+              },
+              child: const Text('Ampliar préstamo', style: TextStyle(color: Colors.black),), 
+            ),
+            ElevatedButton(
+              style: _buttonStyle(size, const Color(0xFFFF9B4E)),
+              onPressed: () {
+                //TODO: Implementar funcion
+              },
+              child: const Text('Devolver préstamo', style: TextStyle(color: Colors.black),), 
+            )
+          ],
+        );
+      }
+    }
+
+    return const SizedBox();
   }
 
   ButtonStyle _buttonStyle(Size size, Color color) {

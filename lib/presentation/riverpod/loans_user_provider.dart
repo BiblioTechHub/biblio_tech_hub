@@ -6,13 +6,13 @@ import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loansUserProvider = StateNotifierProvider<loansNotifier, List<loanState>>((ref) {
+final loansUserProvider = StateNotifierProvider<loansNotifier, List<LoanState>>((ref) {
   final String? email = ref.watch(userProvider).user?.email;
   final BookRepositoryImpl googleRepository = ref.watch(googleRepositoryProvider);
   return loansNotifier(email: email, repository: googleRepository);
 });
 
-class loansNotifier extends StateNotifier<List<loanState>> {
+class loansNotifier extends StateNotifier<List<LoanState>> {
   loansNotifier({required this.email, required this.repository}): super([]);
 
   final String? email;
@@ -27,9 +27,10 @@ class loansNotifier extends StateNotifier<List<loanState>> {
       .where('email', isEqualTo: email)
       .get()
       .then((value) async { 
+        //TODO: Comprobar si con first va bien, tendremos que insertar otro nuevo usuario en la base de datos
         for(var doc in value.docs.first.data()['loans']){
-          final loanState loan;
-          loan = loanState(
+          final LoanState loan;
+          loan = LoanState(
             book: await repository.getBookByISBN(doc['isbn']), 
             loanDate: doc['F. Prestamo'], 
             expirationDate: doc['F. Vencimiento']
@@ -41,15 +42,13 @@ class loansNotifier extends StateNotifier<List<loanState>> {
   }
 }
 
-class loanState {
+class LoanState {
   final Book book;
-  // final String isbn;
   final Timestamp loanDate;
   final Timestamp expirationDate;
 
-  const loanState({
+  const LoanState({
     required this.book,
-    // required this.isbn,
     required this.loanDate,
     required this.expirationDate
   });

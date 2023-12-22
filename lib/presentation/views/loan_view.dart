@@ -56,7 +56,7 @@ class LoanView extends ConsumerWidget {
 class _Cardloan extends ConsumerWidget {
   const _Cardloan({required this.loan, required this.size});
 
-  final loanState loan;
+  final LoanState loan;
   final Size size;
 
   @override

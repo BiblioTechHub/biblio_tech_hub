@@ -64,7 +64,7 @@ class HorizontalListView extends ConsumerWidget {
             physics: const BouncingScrollPhysics(),
             itemCount: books.length,
             itemBuilder: (context, index) {
-              return _Slide(book: books[index], size: size,);
+              return _Slide(book: books[index].book, size: size,);
             },
           ))
         ],
