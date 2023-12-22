@@ -56,7 +56,9 @@ class BookDetails {
         publisher: json["publisher"] ?? '',
         publishedDate: json["publishedDate"] ?? '',
         description: json["description"] ?? '',
-        isbn: json['industryIdentifiers'] == null ? '' : json['industryIdentifiers'][0]['identifier'],
+        isbn: json['industryIdentifiers'] == null 
+          ? '' 
+          : json['industryIdentifiers'][0]['identifier'],
         pageCount: json["pageCount"] ?? 0,
         categories: json['categories'] ?? [],
         imageLinks: json['imageLinks'] == null ? '' : json['imageLinks']['smallThumbnail'],

@@ -11,14 +11,20 @@ import 'package:go_router/go_router.dart';
 
 
 
-class BookDetailsView extends ConsumerWidget {
+class BookDetailsView extends ConsumerStatefulWidget {
 
   const BookDetailsView({super.key, required this.pageIndex});
 
   final int pageIndex;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BookDetailsView> createState() => _BookDetailsViewState();
+}
+
+class _BookDetailsViewState extends ConsumerState<BookDetailsView> {
+  
+  @override
+  Widget build(BuildContext context) {
 
     final book = ref.watch(bookDetailsViewProvider);
     final List<BookState> bookStock = ref.watch(bookStockProvider);
@@ -64,7 +70,7 @@ class BookDetailsView extends ConsumerWidget {
           onPressed: () => context.pop(),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigation(currentIndex: pageIndex),
+      bottomNavigationBar: CustomBottomNavigation(currentIndex: widget.pageIndex),
     );
   }
 }

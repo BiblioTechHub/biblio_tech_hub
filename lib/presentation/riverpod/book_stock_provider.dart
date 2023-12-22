@@ -13,31 +13,68 @@ class BookStockNotifier extends StateNotifier<List<BookState>> {
   BookStockNotifier({required this.repository}) : super([]);
 
   final BookRepositoryImpl repository;
-  
+  final FirebaseFirestore db = FirebaseFirestore.instance;
+
+  // Future<void> getBook() async {
+  //   final querySnapshot = await db.collection('book').get();
+  //   querySnapshot.docs.first.reference.snapshots().listen((event) async {
+  //     final book = await repository.getBookByISBN(event["isbn"]);
+  //       final bookState = BookState(
+  //         book: book, 
+  //         isAvailable: event["isAvailable"], 
+  //         isBorrowed: event["isBorrowed"], 
+  //         title: event["title"]
+  //       );
+  //     state = [bookState];
+  //   });
+  //   for(var doc in querySnapshot.docs){
+  //     doc.reference.snapshots().listen((event) async {        
+  //       final book = await repository.getBookByISBN(event["isbn"]);
+  //       final bookState = BookState(
+  //         book: book, 
+  //         isAvailable: event["isAvailable"], 
+  //         isBorrowed: event["isBorrowed"], 
+  //         title: event["title"]
+  //       );
+
+  //       if(state.any((element) => element.book.isbn == doc.data()["isbn"])){
+  //         final int index = state.indexWhere((element) => element.book.isbn == doc.data()["isbn"]);
+  //         state[index] = bookState;
+  //         print(state[index]);
+  //       }else{
+  //         state = [...state, bookState];
+  //       }
+  //     });
+  //   }
+  // }
+
   Future<void> getBook() async {
+    final querySnapshot = await db.collection('book').get();
+    for(var doc in querySnapshot.docs){
+      doc.reference.snapshots().listen((event) async {        
+        final book = await repository.getBookByISBN(event["isbn"]);
+        final bookState = BookState(
+          book: book, 
+          isAvailable: event["isAvailable"], 
+          isBorrowed: event["isBorrowed"], 
+          title: event["title"]
+        );
 
-    final FirebaseFirestore db = FirebaseFirestore.instance; 
-    // final List<Book> books =  [];
+        // state.map((e) => null)
 
-    await db.collection('book')
-      .get()
-      .then((value) async { 
-        for(var doc in value.docs){
-          // state = [...state, loan];
-          print(doc.data());
-          final book = await repository.getBookByISBN(doc.data()["isbn"]);
-          final bookState = BookState(
-            book: book, 
-            isAvailable: doc.data()["isAvailable"], 
-            isBorrowed: doc.data()["isBorrowed"], 
-            title: doc.data()["title"]
-          );
+        if(state.any((element) => element.book.isbn == doc.data()["isbn"])){
+          final int index = state.indexWhere((element) => element.book.isbn == doc.data()["isbn"]);
+          state[index] = bookState;
+          state = [...state];
+        }else{
           state = [...state, bookState];
         }
-        
       });
+    }
   }
 }
+
+
 
 class BookState {
   final Book book;

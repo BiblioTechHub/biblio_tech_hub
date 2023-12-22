@@ -22,8 +22,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(bookStockProvider.notifier).getBook();
+    Future(() => ref.read(bookStockProvider.notifier).getBook());
+
   }
+  
 
   @override
   Widget build(BuildContext context) {   
