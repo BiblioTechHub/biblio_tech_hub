@@ -94,7 +94,7 @@ class _RequestLoanButton extends ConsumerWidget {
         return ElevatedButton(
           style: _buttonStyle(size, const Color(0xFF8C42F7)),
           onPressed: () {
-            //TODO: Implementar funcionalidad
+            ref.read(loansUserProvider.notifier).makeLoan(book_);
           },
           child: const Text('Solicitar préstamo', style: TextStyle(color: Colors.black),), 
         );
@@ -103,7 +103,6 @@ class _RequestLoanButton extends ConsumerWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            //* Button 'ExtendBook'
             ElevatedButton(
               style: _buttonStyle(size, const Color(0xFFD5E191)),
               onPressed: () {

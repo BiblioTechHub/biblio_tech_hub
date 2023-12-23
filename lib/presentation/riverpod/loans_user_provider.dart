@@ -1,6 +1,7 @@
 
 import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/infrastructure/repositories/book_repository_impl.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/google_repository_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,7 +22,6 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
   
   Future<void> getloans() async {
 
-    //TODO: Quizas pueda ser almacenando aqui el estado
     int size = state.length;
 
     final querySnapshot = db.collection('user').where('email', isEqualTo: email);
@@ -32,8 +32,6 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
     querySnapshot.snapshots().listen((event) async {
 
 
-      int len = event.docs.first['loans'].length;
-      //TODO: Tenemos que comprobar que al quitar una reserva esta se actualize en el estado
       if(event.docs.first['loans'].length == size){
         for(var loan in event.docs.first['loans']){
           final LoanState loanState = LoanState(
@@ -42,7 +40,6 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
             expirationDate: loan['F. Vencimiento']
           );
           
-          // TODO: comprobar si size == len
           if(state.any((element) => element.book.isbn == loan['isbn'])){
             final int index = state.indexWhere((element) => element.book.isbn == loan["isbn"]);
             state[index] = loanState;
@@ -51,7 +48,7 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
             state = [...state, loanState];
           }
         }
-      }else{ 
+      }else if(event.docs.first['loans'].length < size){ 
         List<LoanState> loans = [];
         for(var loan in event.docs.first['loans']){
           final LoanState loanState = LoanState(
@@ -62,8 +59,34 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
           loans.add(loanState);
         }
         state = [...loans];
+      }else if(event.docs.first['loans'].length > size) {
+        final LoanState loanState = LoanState(
+          book: await repository.getBookByISBN(event.docs.first['loans'].last['isbn']), 
+          loanDate: event.docs.first['loans'].last['F. Prestamo'], 
+          expirationDate: event.docs.first['loans'].last['F. Vencimiento']
+        );
+        state = [...state, loanState];
       }
     });
+  }
+
+  Future<void> makeLoan(BookState bookState) async {
+
+    DateTime dateTime = DateTime.now();
+    
+    QuerySnapshot userCollection = await db.collection('user').where('email', isEqualTo: email).get();
+    DocumentSnapshot userDocument = userCollection.docs.first;
+    final Map<String, dynamic> loan = {
+     'isbn': bookState.book.isbn,
+      'F. Prestamo': Timestamp.fromDate(dateTime),
+      'F. Vencimiento': Timestamp.fromDate(dateTime.add(const Duration(days: 10)))
+    };
+    await userDocument.reference.update({'loans': [...userDocument['loans'], loan]});
+
+
+    QuerySnapshot bookCollection = await db.collection('book').where('isbn', isEqualTo: bookState.book.isbn).get();
+    DocumentSnapshot bookDocument = bookCollection.docs.first;
+    await bookDocument.reference.update({'isBorrowed': true});
   }
 }
 
