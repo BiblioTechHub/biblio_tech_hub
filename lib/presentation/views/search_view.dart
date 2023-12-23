@@ -4,7 +4,6 @@ import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:async';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -23,7 +22,6 @@ class _SearchViewState extends State<SearchView> {
   bool isNFCButtonActive = false;
 
   List<Book> books = [];
-  Book? searchResult;
   Timer? _debounceTimer;
 
   @override
@@ -99,37 +97,14 @@ class _SearchViewState extends State<SearchView> {
       final result = await googleBookDatasource.getBookByISBN(isbn);
 
       setState(() {
-        searchResult = result;
+        books.clear();
+        books.add(result);
       });
-
+    
       NfcManager.instance.stopSession();
+
     });
   }
-
-  void _ndefWrite(String isbn) {
-  NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-    var ndef = Ndef.from(tag);
-    if (ndef == null || !ndef.isWritable) {
-      result.value = 'Tag is not ndef writable';
-      NfcManager.instance.stopSession(errorMessage: result.value);
-      return;
-    }
-
-    NdefMessage message = NdefMessage([
-      NdefRecord.createText(isbn),
-    ]);
-
-    try {
-      await ndef.write(message);
-      result.value = 'Success to "Ndef Write"';
-      NfcManager.instance.stopSession();
-    } catch (e) {
-      result.value = e;
-      NfcManager.instance.stopSession(errorMessage: result.value.toString());
-      return;
-    }
-  });
-}
 
   void _searchBooks(String query) async {
     final result = await googleBookDatasource.getBookByTitle(query);
@@ -140,30 +115,16 @@ class _SearchViewState extends State<SearchView> {
   }
 
   Widget nfcButton() {
-    return SpeedDial(
-      closeManually: true,
-      overlayOpacity: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      children: [
-        SpeedDialChild(
-          label: 'Tag Read',
-          onTap: _tagRead
-        ),
-        SpeedDialChild(
-          label: 'Tag Write',
-          onTap: () {
-            String isbnToWrite = '9780134494166';
-            _ndefWrite(isbnToWrite);
-          }
-        )
-      ],
-      child: Image.asset(
-        'assets/logo_nfc.png',
-        width: 36.0,
-        height: 36.0,
-      ),
-    );
-  }
+  return FloatingActionButton(
+    onPressed: _tagRead, // Llamamos directamente a la función de lectura
+    tooltip: 'Tag Read',
+    child: Image.asset(
+      'assets/logo_nfc.png',
+      width: 36.0,
+      height: 36.0,
+    ),
+  );
+}
 
 }
 

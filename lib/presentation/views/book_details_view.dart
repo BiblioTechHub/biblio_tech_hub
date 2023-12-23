@@ -6,10 +6,8 @@ import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:nfc_manager/nfc_manager.dart';
 
 
 
@@ -64,17 +62,47 @@ class _BookDetailsViewState extends ConsumerState<BookDetailsView> {
           )
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(top: size.height * 0.015),
-        child: FloatingActionButton(
-          child: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-      ),
+      floatingActionButton: nfcButton(book: book),
+      
+      //floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
+      //floatingActionButton: Padding(
+      //  padding: EdgeInsets.only(top: size.height * 0.015),
+      //  child: FloatingActionButton(
+      //    child: const Icon(Icons.arrow_back),
+      //    onPressed: () => context.pop(),
+      //  ),
+      //),
       bottomNavigationBar: CustomBottomNavigation(currentIndex: widget.pageIndex),
     );
   }
+  Widget nfcButton({required Book book}) {
+  return FloatingActionButton(
+    onPressed: () => _ndefWrite(book.isbn),
+    tooltip: 'Tag Write',
+    child: Image.asset(
+      'assets/logo_nfc.png',
+      width: 36.0,
+      height: 36.0,
+    ),
+  );
+}
+
+void _ndefWrite(String isbn) {
+  NfcManager.instance.startSession(onDiscovered: (NfcTag? tag) async {
+    if (tag != null) {
+      var ndef = Ndef.from(tag);
+
+      NdefMessage message = NdefMessage([
+        NdefRecord.createText(isbn),
+      ]);
+
+      if (ndef != null && message != null) {
+        await ndef.write(message);
+        NfcManager.instance.stopSession();
+      }
+    }
+  });
+}
 }
 
 class _RequestLoanButton extends ConsumerWidget {
