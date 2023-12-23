@@ -3,6 +3,7 @@ import 'package:biblio_tech_hub/domain/entities/book.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,7 +89,8 @@ class _RequestLoanButton extends ConsumerWidget {
     final loanISBNBook = List<String>.from(ref.watch(loansUserProvider).map((e) => e.book.isbn));
 
     for(var book_ in bookStock){
-      if(book_.book.isbn == isbn && book_.isAvailable && !book_.isBorrowed) {
+      if(book_.book.isbn == isbn && book_.isAvailable && !book_.isBorrowed
+          && ref.watch(userProvider).user != null) {
         return ElevatedButton(
           style: _buttonStyle(size, const Color(0xFF8C42F7)),
           onPressed: () {

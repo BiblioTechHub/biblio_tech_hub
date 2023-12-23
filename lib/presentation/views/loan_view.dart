@@ -7,11 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoanView extends ConsumerWidget {
+class LoanView extends ConsumerStatefulWidget {
   const LoanView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LoanView> createState() => _LoanViewState();
+}
+
+class _LoanViewState extends ConsumerState<LoanView> {
+  @override
+  Widget build(BuildContext context) {
     
     final size = MediaQuery.of(context).size;
     final loan = ref.watch(loansUserProvider);
@@ -42,7 +47,7 @@ class LoanView extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.01),
                 itemCount: loan.length,
                 itemBuilder: (context, index) {
-                  return _Cardloan(loan: ref.watch(loansUserProvider)[index], size: size);
+                  return _Cardloan(loan: loan[index], size: size);
                 },
               ),
             ),

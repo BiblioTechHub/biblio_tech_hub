@@ -6,39 +6,64 @@ import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loansUserProvider = StateNotifierProvider<loansNotifier, List<LoanState>>((ref) {
+final loansUserProvider = StateNotifierProvider<LoansNotifier, List<LoanState>>((ref) {
   final String? email = ref.watch(userProvider).user?.email;
   final BookRepositoryImpl googleRepository = ref.watch(googleRepositoryProvider);
-  return loansNotifier(email: email, repository: googleRepository);
+  return LoansNotifier(email: email, repository: googleRepository);
 });
 
-class loansNotifier extends StateNotifier<List<LoanState>> {
-  loansNotifier({required this.email, required this.repository}): super([]);
+class LoansNotifier extends StateNotifier<List<LoanState>> {
+  LoansNotifier({required this.email, required this.repository}): super([]);
 
   final String? email;
   final BookRepositoryImpl repository;
+    final FirebaseFirestore db = FirebaseFirestore.instance; 
   
   Future<void> getloans() async {
 
-    final FirebaseFirestore db = FirebaseFirestore.instance; 
-    // final List<Book> books =  [];
+    //TODO: Quizas pueda ser almacenando aqui el estado
+    int size = state.length;
 
-    await db.collection('user')
-      .where('email', isEqualTo: email)
-      .get()
-      .then((value) async { 
-        //TODO: Comprobar si con first va bien, tendremos que insertar otro nuevo usuario en la base de datos
-        for(var doc in value.docs.first.data()['loans']){
-          final LoanState loan;
-          loan = LoanState(
-            book: await repository.getBookByISBN(doc['isbn']), 
-            loanDate: doc['F. Prestamo'], 
-            expirationDate: doc['F. Vencimiento']
+    final querySnapshot = db.collection('user').where('email', isEqualTo: email);
+    await querySnapshot.get().then((value) {
+        size = value.docs.first['loans'].length;
+    });
+    
+    querySnapshot.snapshots().listen((event) async {
+
+
+      int len = event.docs.first['loans'].length;
+      //TODO: Tenemos que comprobar que al quitar una reserva esta se actualize en el estado
+      if(event.docs.first['loans'].length == size){
+        for(var loan in event.docs.first['loans']){
+          final LoanState loanState = LoanState(
+            book: await repository.getBookByISBN(loan['isbn']), 
+            loanDate: loan['F. Prestamo'], 
+            expirationDate: loan['F. Vencimiento']
           );
-          state = [...state, loan];
+          
+          // TODO: comprobar si size == len
+          if(state.any((element) => element.book.isbn == loan['isbn'])){
+            final int index = state.indexWhere((element) => element.book.isbn == loan["isbn"]);
+            state[index] = loanState;
+            state = [...state];
+          }else{
+            state = [...state, loanState];
+          }
         }
-        
-      });
+      }else{ 
+        List<LoanState> loans = [];
+        for(var loan in event.docs.first['loans']){
+          final LoanState loanState = LoanState(
+            book: await repository.getBookByISBN(loan['isbn']), 
+            loanDate: loan['F. Prestamo'], 
+            expirationDate: loan['F. Vencimiento']
+          );
+          loans.add(loanState);
+        }
+        state = [...loans];
+      }
+    });
   }
 }
 
