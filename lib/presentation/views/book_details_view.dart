@@ -88,18 +88,18 @@ class _RequestLoanButton extends ConsumerWidget {
 
     final loanISBNBook = List<String>.from(ref.watch(loansUserProvider).map((e) => e.book.isbn));
 
-    for(var book_ in bookStock){
-      if(book_.book.isbn == isbn && book_.isAvailable && !book_.isBorrowed
+    for(var bookState_ in bookStock){
+      if(bookState_.book.isbn == isbn && bookState_.isAvailable && !bookState_.isBorrowed
           && ref.watch(userProvider).user != null) {
         return ElevatedButton(
           style: _buttonStyle(size, const Color(0xFF8C42F7)),
           onPressed: () {
-            ref.read(loansUserProvider.notifier).makeLoan(book_);
+            ref.read(loansUserProvider.notifier).makeLoan(bookState_);
           },
           child: const Text('Solicitar préstamo', style: TextStyle(color: Colors.black),), 
         );
-      }else if(book_.book.isbn == isbn && book_.isAvailable 
-                && book_.isBorrowed && loanISBNBook.contains(isbn)) {
+      }else if(bookState_.book.isbn == isbn && bookState_.isAvailable 
+                && bookState_.isBorrowed && loanISBNBook.contains(isbn)) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -113,7 +113,7 @@ class _RequestLoanButton extends ConsumerWidget {
             ElevatedButton(
               style: _buttonStyle(size, const Color(0xFFFF9B4E)),
               onPressed: () {
-                //TODO: Implementar funcion
+                ref.read(loansUserProvider.notifier).giveBackLoan(bookState_);
               },
               child: const Text('Devolver préstamo', style: TextStyle(color: Colors.black),), 
             )
