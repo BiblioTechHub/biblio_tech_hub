@@ -111,6 +111,41 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
     DocumentSnapshot bookDocument = bookCollection.docs.first;
     await bookDocument.reference.update({'isBorrowed': false});
   }
+
+  Future<void> extendLoan(BookState bookState) async {
+    QuerySnapshot userCollection = await db.collection('user').where('email', isEqualTo: email).get();
+    DocumentSnapshot userDocument = userCollection.docs.first;
+
+    List<Map<String, dynamic>> loans = [];
+    for(var loan in state){
+      if(loan.book.isbn == bookState.book.isbn){
+        loans.add({
+          'isbn': loan.book.isbn,
+          'F. Prestamo': loan.loanDate,
+          'F. Vencimiento': Timestamp.fromDate(loan.expirationDate.toDate().add(const Duration(days: 5)))
+        });
+      } else {
+        loans.add({
+          'isbn': loan.book.isbn,
+          'F. Prestamo': loan.loanDate,
+          'F. Vencimiento': loan.expirationDate
+        });
+      }
+    }
+
+    await userDocument.reference.update({'loans': loans});
+  }
+
+  String? getExpirationDate(String isbn){
+    for(LoanState loan in state){
+      if(loan.book.isbn == isbn){
+        DateTime dateTime = loan.expirationDate.toDate();
+        return '${dateTime.day+1}/${dateTime.month}/${dateTime.year}';
+      } else {
+      }
+    }
+    return null;
+  }
 }
 
 class LoanState {

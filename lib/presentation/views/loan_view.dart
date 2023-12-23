@@ -163,7 +163,7 @@ String formatDate(Timestamp timestamp) {
     DateTime dateTime = timestamp.toDate();
 
     // Formatear la fecha como dd/mm/aaaa
-    String formattedDate = '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+    String formattedDate = '${dateTime.day+1}/${dateTime.month}/${dateTime.year}';
 
     return formattedDate;
   }

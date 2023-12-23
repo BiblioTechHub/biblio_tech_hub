@@ -6,6 +6,7 @@ import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -106,7 +107,7 @@ class _RequestLoanButton extends ConsumerWidget {
             ElevatedButton(
               style: _buttonStyle(size, const Color(0xFFD5E191)),
               onPressed: () {
-                //TODO: Implementar funcion
+                ref.read(loansUserProvider.notifier).extendLoan(bookState_);
               },
               child: const Text('Ampliar préstamo', style: TextStyle(color: Colors.black),), 
             ),
@@ -171,7 +172,7 @@ class _Body extends StatelessWidget {
   }
 }
 
-class _Header extends StatelessWidget {
+class _Header extends ConsumerWidget {
   const _Header({
     required this.size, 
     required this.book,
@@ -181,7 +182,7 @@ class _Header extends StatelessWidget {
   final Book book;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         book.imageLinks == ''
@@ -205,13 +206,14 @@ class _Header extends StatelessWidget {
               SizedBox(height: size.height * 0.02),
               Text('Fecha de Publicación: ${book.publishedDate}', style: Theme.of(context).textTheme.titleSmall),
               
-              // TODO: Comprobar si el libro esta prestado
               SizedBox(height: size.height * 0.02),
               Container(
                 color: const Color.fromARGB(137, 117, 117, 117),
                 width: double.maxFinite,
                 padding: EdgeInsets.all(size.width * 0.01),
-                child: const Text('Fecha de devolución: \nXXXX', textAlign: TextAlign.center)
+                child: ref.watch(loansUserProvider.notifier).getExpirationDate(book.isbn) != null
+                  ? Text('Fecha de devolución: \n ${ref.watch(loansUserProvider.notifier).getExpirationDate(book.isbn)}', textAlign: TextAlign.center)
+                  : Text('Fecha de devolución: \n XX/XX/XXXX', textAlign: TextAlign.center)
               ),
             ],
           ),
