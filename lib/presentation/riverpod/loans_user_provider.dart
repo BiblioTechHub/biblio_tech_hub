@@ -25,13 +25,15 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
     int size = state.length;
 
     final querySnapshot = db.collection('user').where('email', isEqualTo: email);
+    // final querySnapshotGet = await querySnapshot.get();
+    // size = querySnapshotGet.docs.first['loans'].length;
     
     querySnapshot.snapshots().listen((event) async {
 
       final QuerySnapshot users = await db.collection('user').where('email', isEqualTo: email).get();
 
       if(users.docs.isNotEmpty) {
-        size = users.docs.first['loans'].length;
+        size = state.length;
 
         if(event.docs.first['loans'].length == size){
           for(var loan in event.docs.first['loans']){
