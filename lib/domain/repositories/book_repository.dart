@@ -4,7 +4,7 @@ abstract class BookRepository {
 
   Future<Book> getBookByISBN(String isbn);
 
-  Future<List<Book>> getBookDrama();
+  Future<List<Book>> getBookbyCategory(String category);
 
   Future<List<Book>> getBookByTitle(String title);
   

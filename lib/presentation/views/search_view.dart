@@ -20,6 +20,7 @@ class _SearchViewState extends State<SearchView> {
   final GoogleBookDatasource googleBookDatasource = GoogleBookDatasource();
   ValueNotifier<dynamic> result = ValueNotifier(null);
   bool isNFCButtonActive = false;
+  bool isFilterActive = false;
 
   List<Book> books = [];
   Timer? _debounceTimer;
@@ -27,6 +28,12 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    void _toggleFilter() {
+    setState(() {
+      isFilterActive = !isFilterActive;
+    });
+  }
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -44,28 +51,36 @@ class _SearchViewState extends State<SearchView> {
                   padding: const EdgeInsets.all(16.0),
                   child: TextField(
                     maxLines: 1,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal:20),
-                      prefixIcon: Icon(Icons.search),
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                      prefixIcon: const Icon(Icons.search),
                       hintText: 'Buscar libros...',
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black)
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isFilterActive ? Icons.filter_alt : Icons.filter_alt_outlined,
+                        ),
+                        onPressed: _toggleFilter,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black)
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
                       ),
                       filled: true,
-                      fillColor: Colors.white
+                      fillColor: Colors.white,
                     ),
                     onChanged: (query) {
                       _debounceTimer?.cancel();
-            
+
                       _debounceTimer = Timer(const Duration(seconds: 2), () {
-                        if(query != '') _searchBooks(query);
+                        if (query != '' && isFilterActive == false) _searchBooks(query);
+                        if (query != '' && isFilterActive == true) _searchCategories(query);
                       });
                     },
                   ),
                 ),
+
               ]
             ),
           ),
@@ -108,6 +123,14 @@ class _SearchViewState extends State<SearchView> {
 
   void _searchBooks(String query) async {
     final result = await googleBookDatasource.getBookByTitle(query);
+
+    setState(() {
+      books = result;
+    });
+  }
+
+    void _searchCategories(String query) async {
+    final result = await googleBookDatasource.getBookbyCategory(query);
 
     setState(() {
       books = result;

@@ -17,8 +17,8 @@ class BookRepositoryImpl extends BookRepository{
   }
   
   @override
-  Future<List<Book>> getBookDrama() async {
-    List<Book> books = await datasource.getBookDrama();
+  Future<List<Book>> getBookbyCategory(String category) async {
+    List<Book> books = await datasource.getBookbyCategory(category);
 
     return books;
   }

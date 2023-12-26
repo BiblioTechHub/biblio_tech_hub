@@ -32,10 +32,10 @@ class GoogleBookDatasource extends BookDatasource{
   }
   
   @override
-  Future<List<Book>> getBookDrama() async {
+  Future<List<Book>> getBookbyCategory(String category) async {
     final response = await dio.get('books/v1/volumes',
       queryParameters: {
-        'q' : 'subject:drama'
+        'q' : 'subject:$category'
       }
     );
 

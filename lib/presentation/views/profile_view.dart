@@ -176,7 +176,6 @@ class _Leans extends ConsumerWidget {
             ),
             color: Colors.white
           ),
-          //TODO: Implementar el numero de prestamos
           child: Text(ref.watch(loansUserProvider).length.toString()),
           //Text(user?.loans.length ?? 'XX'),
         )
