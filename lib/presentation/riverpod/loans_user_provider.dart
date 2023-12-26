@@ -18,55 +18,59 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
 
   final String? email;
   final BookRepositoryImpl repository;
-    final FirebaseFirestore db = FirebaseFirestore.instance; 
+  final FirebaseFirestore db = FirebaseFirestore.instance; 
   
   Future<void> getloans() async {
 
     int size = state.length;
 
     final querySnapshot = db.collection('user').where('email', isEqualTo: email);
-    await querySnapshot.get().then((value) {
-        size = value.docs.first['loans'].length;
-    });
     
     querySnapshot.snapshots().listen((event) async {
 
+      final QuerySnapshot users = await db.collection('user').where('email', isEqualTo: email).get();
 
-      if(event.docs.first['loans'].length == size){
-        for(var loan in event.docs.first['loans']){
-          final LoanState loanState = LoanState(
-            book: await repository.getBookByISBN(loan['isbn']), 
-            loanDate: loan['F. Prestamo'], 
-            expirationDate: loan['F. Vencimiento']
-          );
-          
-          if(state.any((element) => element.book.isbn == loan['isbn'])){
-            final int index = state.indexWhere((element) => element.book.isbn == loan["isbn"]);
-            state[index] = loanState;
-            state = [...state];
-          }else{
-            state = [...state, loanState];
+      if(users.docs.isNotEmpty) {
+        size = users.docs.first['loans'].length;
+
+        if(event.docs.first['loans'].length == size){
+          for(var loan in event.docs.first['loans']){
+            final LoanState loanState = LoanState(
+              book: await repository.getBookByISBN(loan['isbn']), 
+              loanDate: loan['F. Prestamo'], 
+              expirationDate: loan['F. Vencimiento']
+            );
+            
+            if(state.any((element) => element.book.isbn == loan['isbn'])){
+              final int index = state.indexWhere((element) => element.book.isbn == loan["isbn"]);
+              state[index] = loanState;
+              state = [...state];
+            }else{
+              state = [...state, loanState];
+            }
           }
-        }
-      }else if(event.docs.first['loans'].length < size){ 
-        List<LoanState> loans = [];
-        for(var loan in event.docs.first['loans']){
+        }else if(event.docs.first['loans'].length < size){ 
+          List<LoanState> loans = [];
+          for(var loan in event.docs.first['loans']){
+            final LoanState loanState = LoanState(
+              book: await repository.getBookByISBN(loan['isbn']), 
+              loanDate: loan['F. Prestamo'], 
+              expirationDate: loan['F. Vencimiento']
+            );
+            loans.add(loanState);
+          }
+          state = [...loans];
+        }else if(event.docs.first['loans'].length > size) {
           final LoanState loanState = LoanState(
-            book: await repository.getBookByISBN(loan['isbn']), 
-            loanDate: loan['F. Prestamo'], 
-            expirationDate: loan['F. Vencimiento']
+            book: await repository.getBookByISBN(event.docs.first['loans'].last['isbn']), 
+            loanDate: event.docs.first['loans'].last['F. Prestamo'], 
+            expirationDate: event.docs.first['loans'].last['F. Vencimiento']
           );
-          loans.add(loanState);
+          state = [...state, loanState];
         }
-        state = [...loans];
-      }else if(event.docs.first['loans'].length > size) {
-        final LoanState loanState = LoanState(
-          book: await repository.getBookByISBN(event.docs.first['loans'].last['isbn']), 
-          loanDate: event.docs.first['loans'].last['F. Prestamo'], 
-          expirationDate: event.docs.first['loans'].last['F. Vencimiento']
-        );
-        state = [...state, loanState];
-      }
+      } else { state = []; }
+
+      
     });
   }
 
@@ -75,7 +79,14 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
     DateTime dateTime = DateTime.now();
     
     QuerySnapshot userCollection = await db.collection('user').where('email', isEqualTo: email).get();
-    DocumentSnapshot userDocument = userCollection.docs.first;
+    late DocumentSnapshot userDocument;
+    
+    if(userCollection.docs.isEmpty){
+      await db.collection('user').add({'email': email, 'loans': []});
+      userCollection = await db.collection('user').where('email', isEqualTo: email).get();
+      userDocument = userCollection.docs.first;
+    }
+
     final Map<String, dynamic> loan = {
      'isbn': bookState.book.isbn,
       'F. Prestamo': Timestamp.fromDate(dateTime),
