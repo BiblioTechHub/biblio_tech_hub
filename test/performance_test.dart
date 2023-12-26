@@ -18,7 +18,7 @@ void main() {
   test('Time it takes to obtain the drama books', () async {
     final Stopwatch stopwatch = Stopwatch()..start();
 
-    await GoogleBookDatasource().getBookDrama();
+    await GoogleBookDatasource().getBookbyCategory('Drama');
 
     stopwatch.stop();
 
