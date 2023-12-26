@@ -96,7 +96,7 @@ void _ndefWrite(String isbn) {
         NdefRecord.createText(isbn),
       ]);
 
-      if (ndef != null && message != null) {
+      if (ndef != null) {
         await ndef.write(message);
         NfcManager.instance.stopSession();
       }
