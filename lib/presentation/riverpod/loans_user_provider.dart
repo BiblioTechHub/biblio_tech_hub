@@ -92,6 +92,7 @@ class LoansNotifier extends StateNotifier<List<LoanState>> {
       'F. Prestamo': Timestamp.fromDate(dateTime),
       'F. Vencimiento': Timestamp.fromDate(dateTime.add(const Duration(days: 10)))
     };
+    userDocument = userCollection.docs.first;
     await userDocument.reference.update({'loans': [...userDocument['loans'], loan]});
 
 

@@ -1,3 +1,4 @@
+import 'package:biblio_tech_hub/presentation/riverpod/loans_user_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/app_logo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -147,7 +148,7 @@ class _Email extends StatelessWidget {
   }
 }
 
-class _Leans extends StatelessWidget {
+class _Leans extends ConsumerWidget {
   const _Leans({
     required this.user, required this.size,
   });
@@ -156,7 +157,7 @@ class _Leans extends StatelessWidget {
   final User? user;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -176,7 +177,7 @@ class _Leans extends StatelessWidget {
             color: Colors.white
           ),
           //TODO: Implementar el numero de prestamos
-          child: const Text('XX'),
+          child: Text(ref.watch(loansUserProvider).length.toString()),
           //Text(user?.loans.length ?? 'XX'),
         )
       ],
