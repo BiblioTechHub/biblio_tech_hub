@@ -1,4 +1,5 @@
 import 'package:biblio_tech_hub/domain/entities/book.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_category_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_details_view_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/widgets/logo_and_title.dart';
@@ -6,11 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -23,9 +24,11 @@ class HomeView extends StatelessWidget {
             SizedBox(height: size.height * 0.05),
             const LogoAndTitle(),
             SizedBox(height: size.height * 0.02),
-            HorizontalListView(size: size),
+            HorizontalListView(size: size, title: 'Novedades >', books: ref.watch(bookStockProvider),),
             SizedBox(height: size.height * 0.03),
-            HorizontalListView(size: size),
+            HorizontalListView(size: size, title: 'Lo más leido >', books: ref.watch(bookStockProvider),),
+            SizedBox(height: size.height * 0.03),
+            HorizontalListView(size: size, title: 'Drama', books: ref.watch(bookCategoryProvider)),
           ]
         ),
       ),
@@ -38,14 +41,18 @@ class HomeView extends StatelessWidget {
 class HorizontalListView extends ConsumerWidget {
   const HorizontalListView({super.key, 
     required this.size,
+    required this.title,
+    required this.books
   });
 
   final Size size;
+  final String title;
+  final List<BookState> books;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
-    final books = ref.watch(bookStockProvider);
+    final booksState = books;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.02),
       decoration: const BoxDecoration(
@@ -58,13 +65,13 @@ class HorizontalListView extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('LO MÁS NUEVO >', style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
+          Text(title, style: TextStyle(fontFamily: 'Bangers', fontSize: size.height * 0.04)),
           Expanded(child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
-            itemCount: books.length,
+            itemCount: booksState.length,
             itemBuilder: (context, index) {
-              return _Slide(book: books[index].book, size: size,);
+              return _Slide(book: booksState[index].book, size: size,);
             },
           ))
         ],

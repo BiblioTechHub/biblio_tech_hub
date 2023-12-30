@@ -1,4 +1,5 @@
 // import 'package:biblio_tech_hub/presentation/riverpod/book_isbn_provider.dart';
+import 'package:biblio_tech_hub/presentation/riverpod/book_category_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/book_stock_provider.dart';
 import 'package:biblio_tech_hub/presentation/riverpod/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future(() => ref.read(bookStockProvider.notifier).getBook());
+    Future(() {
+      ref.read(bookStockProvider.notifier).getBook();
+      ref.read(bookCategoryProvider.notifier).getBook();
+    });
+
 
   }
   
