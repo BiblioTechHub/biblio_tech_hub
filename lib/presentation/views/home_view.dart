@@ -26,9 +26,7 @@ class HomeView extends ConsumerWidget {
             SizedBox(height: size.height * 0.02),
             HorizontalListView(size: size, title: 'Novedades >', books: ref.watch(bookStockProvider),),
             SizedBox(height: size.height * 0.03),
-            HorizontalListView(size: size, title: 'Lo más leido >', books: ref.watch(bookStockProvider),),
-            SizedBox(height: size.height * 0.03),
-            HorizontalListView(size: size, title: 'Drama', books: ref.watch(bookCategoryProvider)),
+            HorizontalListView(size: size, title: 'Lo más leido >', books: ref.watch(bookCategoryProvider)),
           ]
         ),
       ),
